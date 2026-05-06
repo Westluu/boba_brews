@@ -20,8 +20,8 @@ type NavbarProps = {
 
 export function Navbar({ active = "Menu", onOrderClick }: NavbarProps) {
   return (
-    <header className="relative w-full bg-black">
-      <nav className="mx-auto flex h-20 max-w-[1400px] items-center justify-between px-6 sm:px-10">
+    <header className="absolute inset-x-0 top-0 z-20 w-full">
+      <nav className="mx-auto flex h-20 max-w-[1400px] items-center justify-between px-6 pt-4 sm:px-10 sm:pt-6">
         <a
           href="#home"
           aria-label="Boba Brews home"
@@ -67,7 +67,7 @@ export function Navbar({ active = "Menu", onOrderClick }: NavbarProps) {
           <img
             src={orderSign}
             alt="Order"
-            className="h-32 w-auto object-contain transition-transform duration-300 group-hover:rotate-1 group-hover:scale-105 group-focus-visible:rotate-1 group-focus-visible:scale-105"
+            className="h-[15rem] w-auto object-contain transition-transform duration-300 group-hover:rotate-1 group-hover:scale-105 group-focus-visible:rotate-1 group-focus-visible:scale-105"
           />
         </a>
       </nav>
