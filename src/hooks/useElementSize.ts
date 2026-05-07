@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type ElementSize = {
   height: number;
@@ -11,15 +11,29 @@ const DEFAULT_SIZE: ElementSize = {
 };
 
 export function useElementSize<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
+  const [element, setElement] = useState<T | null>(null);
   const [size, setSize] = useState<ElementSize>(DEFAULT_SIZE);
+  const ref = useCallback((node: T | null) => {
+    setElement(node);
+
+    if (!node) {
+      setSize(DEFAULT_SIZE);
+    }
+  }, []);
 
   useEffect(() => {
-    const element = ref.current;
-
     if (!element) {
       return;
     }
+
+    const updateSize = () => {
+      const rect = element.getBoundingClientRect();
+
+      setSize({
+        height: rect.height,
+        width: rect.width,
+      });
+    };
 
     const observer = new ResizeObserver((entries) => {
       const entry = entries[0];
@@ -34,12 +48,13 @@ export function useElementSize<T extends HTMLElement>() {
       });
     });
 
+    updateSize();
     observer.observe(element);
 
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [element]);
 
   return { ref, size };
 }
