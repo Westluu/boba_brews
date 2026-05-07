@@ -1,5 +1,5 @@
 import { useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
-import contactBg from "../assets/contact/contact-bg.png";
+import contactBg from "../assets/contact/contact-bg.jpg";
 import emailCat from "../assets/contact/email-cat.png";
 import {
   CONTACT_EMAIL_RECIPIENT,

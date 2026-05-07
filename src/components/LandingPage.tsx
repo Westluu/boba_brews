@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import cauldron from "../assets/cauldron.png";
-import mobileHeroStill from "../assets/mobile-hero-still.png";
+import mobileHeroStill from "../assets/mobile-hero-still.jpg";
 import BobaCup from "./BobaCup";
 import HeroTitle from "./HeroTitle";
 import SpellTrail from "./SpellTrail";
@@ -10,7 +10,7 @@ import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useScrollProgress } from "../hooks/useScrollProgress";
 import { ROUTES } from "../config/navigation";
 
-import startVideo from "../../assets/start.mp4?url";
+import startVideo from "../../assets/start-optimized.mp4?url";
 
 const INTRO_PLAYBACK_RATE = 3;
 const MENU_REVEAL_PROGRESS = 0.97;

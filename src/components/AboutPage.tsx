@@ -1,5 +1,5 @@
 import catAbout from "../assets/about/cat-about.png";
-import menuBackground from "../assets/menu/background.png";
+import menuBackground from "../assets/menu/background.jpg";
 
 function AboutPage() {
   return (

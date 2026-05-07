@@ -1,7 +1,7 @@
 import { useMemo, useState, type CSSProperties } from "react";
 import cauldron from "../assets/cauldron.png";
 import orderBrew from "../assets/order-brew.png";
-import menuBackground from "../assets/menu/background.png";
+import menuBackground from "../assets/menu/background.jpg";
 import { MENU_GROUPS, type MenuGroup, type MenuItem } from "../data/menu";
 import type { OptionKey } from "../data/orderOptions";
 import {

@@ -1,5 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import menuBackground from "../assets/menu/background.png";
+import menuBackground from "../assets/menu/background.jpg";
 import brewingBoba from "../assets/menu/boba-brewing.png";
 import type { MenuSectionId } from "../config/navigation";
 import {
