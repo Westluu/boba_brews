@@ -1,29 +1,13 @@
-import type { MenuCharm, MenuGroup, MenuGroupIcon } from "../../data/menu";
+import type { MenuGroup, MenuItem } from "../../data/menu";
 import MenuItemArt from "./MenuItemArt";
+import { CATEGORY_ICONS, ITEM_CHARMS } from "./menuSymbols";
 
 type MenuCategoryCardProps = {
   group: MenuGroup;
+  onSelectItem: (item: MenuItem) => void;
 };
 
-const CATEGORY_ICONS: Record<MenuGroupIcon, string> = {
-  cup: "🧋",
-  potion: "⚗",
-  sparkles: "✣",
-  treat: "☆",
-};
-
-const ITEM_CHARMS: Record<MenuCharm, string> = {
-  berries: "●●",
-  lavender: "✣",
-  leaf: "⌁",
-  lychee: "●",
-  mango: "◆",
-  moon: "☾",
-  peach: "●",
-  star: "★",
-};
-
-function MenuCategoryCard({ group }: MenuCategoryCardProps) {
+function MenuCategoryCard({ group, onSelectItem }: MenuCategoryCardProps) {
   return (
     <article className="relative min-h-[31rem] rounded-[1.1rem] border border-[#b9876d] bg-[#07091eed] px-5 pb-5 pt-4 shadow-[0_24px_60px_rgba(0,0,0,0.48),inset_0_0_24px_rgba(113,74,150,0.14)]">
       <span className="absolute -right-1 top-4 font-display text-xl text-[#f8dfb2]">
@@ -43,11 +27,14 @@ function MenuCategoryCard({ group }: MenuCategoryCardProps) {
       </div>
       <div className="mx-auto mt-3 h-[3px] w-20 rounded-full bg-[#d77cdd]" />
 
-      <div className="mt-5 grid gap-3">
+      <div className="mt-5 grid gap-2">
         {group.items.map((item) => (
-          <div
+          <button
             key={item.name}
-            className="grid grid-cols-[4.4rem_1fr_auto] items-center gap-3 sm:grid-cols-[5rem_1fr_auto]"
+            type="button"
+            onClick={() => onSelectItem(item)}
+            aria-label={`View details for ${item.name}`}
+            className="grid grid-cols-[5.8rem_1fr_auto] items-center gap-3 rounded-[0.9rem] px-2 py-1 text-left transition hover:bg-[#f8dfb2]/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d77cdd]/60"
           >
             <MenuItemArt item={item} />
             <div className="min-w-0">
@@ -68,7 +55,7 @@ function MenuCategoryCard({ group }: MenuCategoryCardProps) {
             <span className="pl-2 font-display text-2xl text-[#f8dfb2]">
               {item.price}
             </span>
-          </div>
+          </button>
         ))}
       </div>
     </article>

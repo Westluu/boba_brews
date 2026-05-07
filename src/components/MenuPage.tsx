@@ -1,9 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import menuBackground from "../assets/menu/background.png";
 import brewingBoba from "../assets/menu/boba-brewing.png";
 import type { MenuSectionId } from "../config/navigation";
-import { MENU_GROUPS, MENU_NOTES, type MenuNoteIcon } from "../data/menu";
+import {
+  MENU_GROUPS,
+  MENU_NOTES,
+  type MenuItem,
+  type MenuNoteIcon,
+} from "../data/menu";
 import MenuCategoryCard from "./menu/MenuCategoryCard";
+import MenuItemModal from "./menu/MenuItemModal";
 
 const NOTE_ICONS: Record<MenuNoteIcon, string> = {
   leaf: "⌁",
@@ -16,6 +22,8 @@ type MenuPageProps = {
 };
 
 function MenuPage({ sectionId }: MenuPageProps) {
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       const target = document.getElementById(sectionId);
@@ -71,7 +79,11 @@ function MenuPage({ sectionId }: MenuPageProps) {
         <section className="relative mx-auto max-w-[130rem]">
           <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
             {MENU_GROUPS.map((group) => (
-              <MenuCategoryCard key={group.title} group={group} />
+              <MenuCategoryCard
+                key={group.title}
+                group={group}
+                onSelectItem={setSelectedItem}
+              />
             ))}
           </div>
         </section>
@@ -130,6 +142,13 @@ function MenuPage({ sectionId }: MenuPageProps) {
           </article>
         </section>
       </div>
+
+      {selectedItem && (
+        <MenuItemModal
+          item={selectedItem}
+          onClose={() => setSelectedItem(null)}
+        />
+      )}
     </div>
   );
 }
