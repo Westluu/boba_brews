@@ -5,6 +5,7 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
+import AboutPage from "./components/AboutPage";
 import ContactPage from "./components/ContactPage";
 import LandingPage from "./components/LandingPage";
 import MenuPage from "./components/MenuPage";
@@ -32,6 +33,10 @@ function App() {
           element={<LandingPage onMenuReveal={handleMenuReveal} />}
         />
         {MENU_ROUTES.map(({ path, sectionId }) => {
+          if (path === ROUTES.about) {
+            return <Route key={path} path={path} element={<AboutPage />} />;
+          }
+
           if (path === ROUTES.contact) {
             return <Route key={path} path={path} element={<ContactPage />} />;
           }
