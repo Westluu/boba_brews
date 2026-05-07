@@ -49,11 +49,59 @@ body,
 @keyframes boba-cup-float {
   0%,
   100% {
-    transform: translate(-50%, -100%) rotate(-3deg) translateY(0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   50% {
-    transform: translate(-50%, -100%) rotate(-1deg) translateY(-0.45rem) scale(1.02);
+    transform: translate3d(0, -0.45rem, 0) scale(1.015);
+  }
+}
+
+@keyframes spell-stage-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  12% {
+    transform: translate3d(-0.55rem, 0.25rem, 0);
+  }
+
+  24% {
+    transform: translate3d(0.45rem, -0.35rem, 0);
+  }
+
+  36% {
+    transform: translate3d(-0.35rem, -0.15rem, 0);
+  }
+
+  48% {
+    transform: translate3d(0.5rem, 0.28rem, 0);
+  }
+
+  62% {
+    transform: translate3d(-0.28rem, 0.18rem, 0);
+  }
+
+  76% {
+    transform: translate3d(0.22rem, -0.16rem, 0);
+  }
+}
+
+@keyframes spell-flash-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  18%,
+  54% {
+    filter: brightness(1.85);
+  }
+
+  34%,
+  72% {
+    filter: brightness(1.18);
   }
 }
 
@@ -66,18 +114,97 @@ body,
 
 .boba-cup {
   filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.45));
-  animation: boba-cup-float 2.6s ease-in-out infinite;
+  will-change: left, top, width, transform, filter;
   transition:
     filter 180ms ease,
     opacity 180ms ease;
 }
 
+.boba-cup-image {
+  animation: boba-cup-float 2.6s ease-in-out infinite;
+}
+
 .boba-cup:hover,
 .boba-cup:focus-visible {
-  animation-duration: 1.4s;
   filter:
     drop-shadow(0 22px 42px rgba(0, 0, 0, 0.55))
     drop-shadow(0 0 22px rgba(246, 207, 136, 0.45));
+}
+
+.boba-cup:hover .boba-cup-image,
+.boba-cup:focus-visible .boba-cup-image {
+  animation-duration: 1.4s;
+}
+
+.spell-cauldron {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(-5.5rem, -7vw, -2rem);
+  z-index: 12;
+  width: min(34rem, 72vw);
+  max-height: 58vh;
+  object-fit: contain;
+  opacity: var(--cauldron-opacity, 0.18);
+  transform:
+    translate3d(-50%, var(--cauldron-y, 56%), 0)
+    scale(var(--cauldron-scale, 0.92));
+  filter:
+    drop-shadow(0 28px 46px rgba(0, 0, 0, 0.64))
+    drop-shadow(0 0 var(--cauldron-glow, 0) rgba(0, 0, 0, 0.28));
+  transform-origin: center bottom;
+  will-change: opacity, transform, filter;
+}
+
+.spell-stage-shake {
+  animation: spell-stage-shake 150ms steps(2, end) infinite;
+}
+
+.spell-trail {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  overflow: visible;
+}
+
+.spell-trail-sparkle {
+  filter:
+    drop-shadow(0 0 0.45rem rgba(255, 242, 184, 0.9))
+    drop-shadow(0 0 1rem rgba(152, 98, 226, 0.72));
+}
+
+.spell-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: var(--spell-flash-opacity, 0);
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(255, 255, 246, 1) 0%,
+      rgba(255, 239, 158, 0.96) 18%,
+      rgba(235, 168, 92, 0.78) 34%,
+      rgba(112, 73, 190, 0.42) 54%,
+      rgba(255, 255, 255, 0) 76%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 244, 184, 0.78) 36%,
+      rgba(255, 255, 255, 0.96) 100%
+    );
+  mix-blend-mode: screen;
+  transform: scale(var(--spell-flash-scale, 0.18));
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.spell-flash-active {
+  animation: spell-flash-pulse 230ms steps(2, end) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -85,7 +212,12 @@ body,
     animation: none;
   }
 
-  .boba-cup {
+  .boba-cup-image {
+    animation: none;
+  }
+
+  .spell-stage-shake,
+  .spell-flash-active {
     animation: none;
   }
 }

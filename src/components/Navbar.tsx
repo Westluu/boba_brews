@@ -1,15 +1,18 @@
+import type { MouseEventHandler } from "react";
 import { NAV_ITEMS, type NavItem } from "../config/navigation";
 import wizardCat from "../assets/wizard-cat.png";
 import orderSign from "../assets/order-sign.png";
 
-type NavbarVariant = "hero" | "board" | "compact";
+type NavbarVariant = "hero" | "board" | "compact" | "persistent";
 
 type NavbarProps = {
   active?: string | null;
+  onHomeClick?: MouseEventHandler<HTMLAnchorElement>;
   onOrderClick?: () => void;
   homeHref?: string;
   orderHref?: string;
   items?: NavItem[];
+  showOrder?: boolean;
   variant?: NavbarVariant;
 };
 
@@ -65,14 +68,25 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
     order: "group relative shrink-0 focus:outline-none",
     orderKind: "button",
   },
+  persistent: {
+    header: "fixed inset-x-0 top-0 z-20 w-full",
+    nav: "mx-auto flex h-24 max-w-[1400px] items-center justify-between gap-4 px-6 pt-4 sm:px-10",
+    logo: "h-14 w-14 object-contain",
+    list: "ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-8 sm:ml-8 sm:gap-14 lg:gap-20",
+    link: "text-2xl sm:text-4xl",
+    order: "group relative shrink-0 focus:outline-none",
+    orderKind: "button",
+  },
 };
 
 export function Navbar({
   active = "Menu",
+  onHomeClick,
   onOrderClick,
   homeHref = "#home",
   orderHref = "#order",
   items = NAV_ITEMS,
+  showOrder = true,
   variant = "hero",
 }: NavbarProps) {
   const styles = NAVBAR_STYLES[variant];
@@ -82,6 +96,7 @@ export function Navbar({
       <nav className={styles.nav}>
         <a
           href={homeHref}
+          onClick={onHomeClick}
           aria-label="Boba Brews home"
           className="flex shrink-0 items-center"
         >
@@ -106,7 +121,7 @@ export function Navbar({
                     "transition-colors hover:text-magic-light",
                     "focus:outline-none focus-visible:text-magic-light",
                     isActive
-                      ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[3px] after:rounded-full after:bg-magic"
+                      ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[4px] after:rounded-full after:bg-[#f5e6c5] after:shadow-[0_0_12px_rgba(245,230,197,0.72)]"
                       : "",
                   ].join(" ")}
                 >
@@ -117,24 +132,26 @@ export function Navbar({
           })}
         </ul>
 
-        <a
-          href={orderHref}
-          onClick={onOrderClick}
-          aria-label="Order"
-          className={styles.order}
-        >
-          {styles.orderKind === "button" ? (
-            <span className="inline-flex items-center rounded-full border border-[#e5bc8a66] bg-[#160b1ddd] px-5 py-2 font-display text-xl text-cream shadow-[0_0_24px_rgba(110,63,176,0.22)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 group-focus-visible:-translate-y-0.5 group-focus-visible:scale-105">
-              Order
-            </span>
-          ) : (
-            <img
-              src={orderSign}
-              alt="Order"
-              className={styles.orderImage}
-            />
-          )}
-        </a>
+        {showOrder && (
+          <a
+            href={orderHref}
+            onClick={onOrderClick}
+            aria-label="Order"
+            className={styles.order}
+          >
+            {styles.orderKind === "button" ? (
+              <span className="inline-flex items-center rounded-full border border-[#e5bc8a66] bg-[#160b1ddd] px-5 py-2 font-display text-xl text-cream shadow-[0_0_24px_rgba(110,63,176,0.22)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 group-focus-visible:-translate-y-0.5 group-focus-visible:scale-105">
+                Order
+              </span>
+            ) : (
+              <img
+                src={orderSign}
+                alt="Order"
+                className={styles.orderImage}
+              />
+            )}
+          </a>
+        )}
       </nav>
     </header>
   );

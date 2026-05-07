@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
-import { isMenuSectionHash } from "../config/navigation";
 
-type AppRoute = "home" | "menu";
-
-function getRouteFromHash(hash: string): AppRoute {
-  return isMenuSectionHash(hash) ? "menu" : "home";
-}
-
-export function useHashRoute() {
+export function useHashScroll() {
   const [hash, setHash] = useState(() => window.location.hash);
-  const route = getRouteFromHash(hash);
 
   useEffect(() => {
     const updateHash = () => {
@@ -43,6 +35,4 @@ export function useHashRoute() {
       window.cancelAnimationFrame(frame);
     };
   }, [hash]);
-
-  return { hash, route };
 }

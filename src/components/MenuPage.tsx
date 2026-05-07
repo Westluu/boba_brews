@@ -1,7 +1,6 @@
 import menuBackground from "../assets/menu/background.png";
 import brewingBoba from "../assets/menu/boba-brewing.png";
 import { MENU_GROUPS, MENU_NOTES, type MenuNoteIcon } from "../data/menu";
-import Navbar from "./Navbar";
 import MenuCategoryCard from "./menu/MenuCategoryCard";
 
 const NOTE_ICONS: Record<MenuNoteIcon, string> = {
@@ -12,15 +11,8 @@ const NOTE_ICONS: Record<MenuNoteIcon, string> = {
 
 function MenuPage() {
   return (
-    <div className="min-h-screen bg-black text-cream">
-      <Navbar
-        active="Menu"
-        homeHref="#home"
-        orderHref="#order"
-        variant="board"
-      />
-
-      <main
+    <div className="relative min-h-screen bg-black text-cream">
+      <div
         className="relative min-h-screen overflow-hidden px-4 pb-8 pt-28 sm:px-7"
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.1)), url(${menuBackground})`,
@@ -117,7 +109,7 @@ function MenuPage() {
             </p>
           </article>
         </section>
-      </main>
+      </div>
     </div>
   );
 }
