@@ -91,6 +91,15 @@ body,
     hero-title-bounce 2.4s ease-in-out 780ms infinite;
 }
 
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 .hero-intro-video {
   object-position: 72% center;
 }

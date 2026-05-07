@@ -84,7 +84,7 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
     header: "absolute inset-x-0 top-0 z-20 w-full",
     nav: "mx-auto flex h-20 max-w-[1400px] items-center justify-between px-6 pt-4 sm:px-10 sm:pt-6",
     logo: "h-14 w-14 object-contain",
-    list: "ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-5 sm:ml-6 sm:gap-10 lg:gap-12",
+    list: "scrollbar-hidden ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-5 sm:ml-6 sm:gap-10 lg:gap-12",
     link: "text-xl sm:text-2xl",
     order: "group relative -mt-4 shrink-0 focus:outline-none",
     orderImage:
@@ -95,7 +95,7 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
     header: "absolute inset-x-0 top-0 z-40 w-full",
     nav: "mx-auto flex min-h-24 max-w-[130rem] items-center justify-between gap-3 px-4 pt-5 sm:px-8",
     logo: "h-12 w-12 object-contain sm:h-14 sm:w-14",
-    list: "ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-5 sm:ml-6 sm:gap-10 lg:gap-12",
+    list: "scrollbar-hidden ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-5 sm:ml-6 sm:gap-10 lg:gap-12",
     link: "text-xl sm:text-2xl",
     order: "group relative -mt-4 shrink-0 focus:outline-none",
     orderImage:
@@ -106,7 +106,7 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
     header: "sticky top-0 z-40 border-b border-[#e5bc8a2b] bg-[#07040be8] shadow-[0_18px_50px_rgba(0,0,0,0.28)] backdrop-blur-xl",
     nav: "mx-auto flex min-h-[5.5rem] max-w-[1280px] items-center justify-between gap-4 px-5 py-4 sm:px-8",
     logo: "h-11 w-11 object-contain",
-    list: "ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-5 sm:ml-6 sm:gap-8",
+    list: "scrollbar-hidden ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-5 sm:ml-6 sm:gap-8",
     link: "text-lg sm:text-xl",
     order: "group relative shrink-0 focus:outline-none",
     orderKind: "button",
@@ -115,7 +115,7 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
     header: "fixed inset-x-0 top-0 z-20 w-full",
     nav: "mx-auto flex h-24 max-w-[1400px] items-center justify-between gap-4 px-6 pt-4 sm:px-10",
     logo: "h-20 w-20 object-contain",
-    list: "ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-8 sm:ml-8 sm:gap-14 lg:gap-20",
+    list: "scrollbar-hidden ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-8 sm:ml-8 sm:gap-14 lg:gap-20",
     link: "text-2xl sm:text-4xl",
     order: "group relative -mt-4 shrink-0 focus:outline-none",
     orderImage:
