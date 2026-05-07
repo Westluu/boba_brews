@@ -1,6 +1,6 @@
-import type { MouseEventHandler } from "react";
+import type { MouseEventHandler, ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { NAV_ITEMS, type NavItem } from "../config/navigation";
+import { NAV_ITEMS, ROUTES, type NavItem } from "../config/navigation";
 import wizardCat from "../assets/wizard-cat.png";
 import orderSign from "../assets/order-sign.png";
 
@@ -36,6 +36,48 @@ type NavbarSignStyle = NavbarBaseStyle & {
 };
 
 type NavbarStyle = NavbarButtonStyle | NavbarSignStyle;
+
+type LinkContentProps = {
+  ariaLabel?: string;
+  children: ReactNode;
+  className?: string;
+  href: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+};
+
+const isRouteHref = (href: string) => href.startsWith("/");
+
+function LinkContent({
+  ariaLabel,
+  children,
+  className,
+  href,
+  onClick,
+}: LinkContentProps) {
+  if (isRouteHref(href)) {
+    return (
+      <Link
+        to={href}
+        onClick={onClick}
+        aria-label={ariaLabel}
+        className={className}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={className}
+    >
+      {children}
+    </a>
+  );
+}
 
 const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
   hero: {
@@ -83,17 +125,16 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
 };
 
 export function Navbar({
-  active = "Menu",
+  active = null,
   onHomeClick,
   onOrderClick,
-  homeHref = "#home",
-  orderHref = "#order",
+  homeHref = ROUTES.home,
+  orderHref = ROUTES.menu,
   items = NAV_ITEMS,
   showOrder = true,
   variant = "hero",
 }: NavbarProps) {
   const styles = NAVBAR_STYLES[variant];
-  const isRouteHref = (href: string) => href.startsWith("/");
   const orderContent =
     styles.orderKind === "button" ? (
       <span className="inline-flex items-center rounded-full border border-[#e5bc8a66] bg-[#160b1ddd] px-5 py-2 font-display text-xl text-cream shadow-[0_0_24px_rgba(110,63,176,0.22)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 group-focus-visible:-translate-y-0.5 group-focus-visible:scale-105">
@@ -106,10 +147,10 @@ export function Navbar({
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Link
-          to={homeHref}
+        <LinkContent
+          href={homeHref}
           onClick={onHomeClick}
-          aria-label="Boba Brews home"
+          ariaLabel="Boba Brews home"
           className="flex shrink-0 items-center"
         >
           <img
@@ -117,54 +158,62 @@ export function Navbar({
             alt="Boba Brews wizard cat logo"
             className={styles.logo}
           />
-        </Link>
+        </LinkContent>
 
         <ul className={styles.list}>
           {items.map((item) => {
             return (
               <li key={item.label}>
-                <NavLink
-                  to={item.href}
-                  end
-                  className={({ isActive }) =>
-                    [
+                {isRouteHref(item.href) ? (
+                  <NavLink
+                    to={item.href}
+                    end
+                    className={({ isActive }) =>
+                      [
+                        "relative inline-block py-1 text-cream",
+                        styles.link,
+                        "transition-colors hover:text-magic-light",
+                        "focus:outline-none focus-visible:text-magic-light",
+                        isActive || item.label === active
+                          ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[4px] after:rounded-full after:bg-[#f5e6c5] after:shadow-[0_0_12px_rgba(245,230,197,0.72)]"
+                          : "",
+                      ].join(" ")
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ) : (
+                  <a
+                    href={item.href}
+                    aria-current={item.label === active ? "page" : undefined}
+                    className={[
                       "relative inline-block py-1 text-cream",
                       styles.link,
                       "transition-colors hover:text-magic-light",
                       "focus:outline-none focus-visible:text-magic-light",
-                      isActive || item.label === active
+                      item.label === active
                         ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[4px] after:rounded-full after:bg-[#f5e6c5] after:shadow-[0_0_12px_rgba(245,230,197,0.72)]"
                         : "",
-                    ].join(" ")
-                  }
-                >
-                  {item.label}
-                </NavLink>
+                    ].join(" ")}
+                  >
+                    {item.label}
+                  </a>
+                )}
               </li>
             );
           })}
         </ul>
 
-        {showOrder &&
-          (isRouteHref(orderHref) ? (
-            <Link
-              to={orderHref}
-              onClick={onOrderClick}
-              aria-label="Order"
-              className={styles.order}
-            >
-              {orderContent}
-            </Link>
-          ) : (
-            <a
-              href={orderHref}
-              onClick={onOrderClick}
-              aria-label="Order"
-              className={styles.order}
-            >
-              {orderContent}
-            </a>
-          ))}
+        {showOrder && (
+          <LinkContent
+            href={orderHref}
+            onClick={onOrderClick}
+            ariaLabel="Order"
+            className={styles.order}
+          >
+            {orderContent}
+          </LinkContent>
+        )}
       </nav>
     </header>
   );

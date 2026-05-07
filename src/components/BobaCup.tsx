@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
+import { Link } from "react-router-dom";
 import bobaCup from "../assets/boba.png";
+import { ROUTES } from "../config/navigation";
 import { getBobaCupLayout } from "./bobaCupLayout";
 
 type BobaCupProps = {
@@ -26,8 +28,8 @@ function BobaCup({
   }
 
   return (
-    <a
-      href="#menu"
+    <Link
+      to={ROUTES.menu}
       aria-label="Reveal the menu"
       className="boba-cup absolute z-10 block cursor-pointer outline-none"
       style={{
@@ -43,7 +45,7 @@ function BobaCup({
         className="boba-cup-image relative z-10 h-auto w-full object-contain"
         draggable="false"
       />
-    </a>
+    </Link>
   );
 }
 

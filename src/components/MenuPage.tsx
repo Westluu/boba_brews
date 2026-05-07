@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import menuBackground from "../assets/menu/background.png";
 import brewingBoba from "../assets/menu/boba-brewing.png";
+import type { MenuSectionId } from "../config/navigation";
 import { MENU_GROUPS, MENU_NOTES, type MenuNoteIcon } from "../data/menu";
 import MenuCategoryCard from "./menu/MenuCategoryCard";
 
@@ -11,7 +12,7 @@ const NOTE_ICONS: Record<MenuNoteIcon, string> = {
 };
 
 type MenuPageProps = {
-  sectionId: "menu" | "about" | "magic" | "contact";
+  sectionId: MenuSectionId;
 };
 
 function MenuPage({ sectionId }: MenuPageProps) {

@@ -3,21 +3,29 @@ export type NavItem = {
   href: string;
 };
 
-export const NAV_ITEMS: NavItem[] = [
-  { label: "Menu", href: "/menu" },
-  { label: "About", href: "/about" },
-  { label: "Magic", href: "/magic" },
-  { label: "Contact", href: "/contact" },
+export const ROUTES = {
+  home: "/",
+  menu: "/menu",
+  about: "/about",
+  magic: "/magic",
+  contact: "/contact",
+} as const;
+
+export type MenuSectionId = "menu" | "about" | "magic" | "contact";
+
+export type MenuRoute = {
+  label: string;
+  path: string;
+  sectionId: MenuSectionId;
+};
+
+export const MENU_ROUTES: MenuRoute[] = [
+  { label: "Menu", path: ROUTES.menu, sectionId: "menu" },
+  { label: "About", path: ROUTES.about, sectionId: "about" },
+  { label: "Magic", path: ROUTES.magic, sectionId: "magic" },
+  { label: "Contact", path: ROUTES.contact, sectionId: "contact" },
 ];
 
-export const MENU_SECTION_IDS = new Set([
-  "menu",
-  "about",
-  "magic",
-  "contact",
-  "order",
-]);
-
-export function isMenuSectionHash(hash: string) {
-  return MENU_SECTION_IDS.has(hash.replace(/^#/, ""));
-}
+export const NAV_ITEMS: NavItem[] = [
+  ...MENU_ROUTES.map(({ label, path }) => ({ label, href: path })),
+];

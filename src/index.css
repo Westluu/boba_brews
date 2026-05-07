@@ -105,6 +105,33 @@ body,
   }
 }
 
+@keyframes scroll-brew-cue-drift {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-50%, -0.35rem, 0);
+  }
+}
+
+@keyframes scroll-brew-cue-dot {
+  0% {
+    opacity: 0.25;
+    transform: translate3d(-50%, -0.22rem, 0);
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.35;
+    transform: translate3d(-50%, 0.46rem, 0);
+  }
+}
+
 .hero-title-pop {
   transform-origin: top left;
   animation:
@@ -157,6 +184,88 @@ body,
 
 .spell-stage-shake {
   animation: spell-stage-shake 150ms steps(2, end) infinite;
+}
+
+.scroll-brew-cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 4vh, 3.25rem);
+  z-index: 18;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  width: min(44rem, calc(100vw - 2rem));
+  color: #f5e6c5;
+  pointer-events: none;
+  text-align: center;
+  text-shadow:
+    0 0 10px rgba(245, 230, 197, 0.45),
+    0 5px 18px rgba(0, 0, 0, 0.66);
+  transform: translate3d(-50%, 0, 0);
+  animation: scroll-brew-cue-drift 2.1s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.scroll-brew-cue-icon {
+  position: relative;
+  width: 2.45rem;
+  height: 4.15rem;
+  border: 0.22rem solid currentColor;
+  border-radius: 999rem;
+  box-shadow:
+    inset 0 0 0.45rem rgba(245, 230, 197, 0.16),
+    0 0 1rem rgba(245, 230, 197, 0.22);
+}
+
+.scroll-brew-cue-icon::before,
+.scroll-brew-cue-icon::after,
+.scroll-brew-cue-icon span {
+  position: absolute;
+  left: 50%;
+  content: "";
+  background: currentColor;
+  border-radius: 999rem;
+  transform: translate(-50%, -50%);
+}
+
+.scroll-brew-cue-icon::before {
+  top: 1rem;
+  width: 0.3rem;
+  height: 0.8rem;
+}
+
+.scroll-brew-cue-icon::after {
+  top: 2.25rem;
+  width: 0.9rem;
+  height: 0.18rem;
+}
+
+.scroll-brew-cue-icon span {
+  top: 2.25rem;
+  width: 0.18rem;
+  height: 0.9rem;
+  animation: scroll-brew-cue-dot 1.35s ease-in-out infinite;
+}
+
+.scroll-brew-cue-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.85rem, 2vw, 1.55rem);
+  font-family: theme("fontFamily.display");
+  font-size: clamp(2rem, 4vw, 3.55rem);
+  line-height: 1;
+}
+
+.scroll-brew-cue-text p {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.scroll-brew-cue-text span {
+  font-size: 0.82em;
+  line-height: 1;
 }
 
 .spell-trail {
@@ -217,7 +326,9 @@ body,
   }
 
   .spell-stage-shake,
-  .spell-flash-active {
+  .spell-flash-active,
+  .scroll-brew-cue,
+  .scroll-brew-cue-icon span {
     animation: none;
   }
 }

@@ -172,6 +172,26 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
           </div>
         )}
 
+        {hasFinishedIntro && transitionProgress < 0.34 && (
+          <div
+            className="scroll-brew-cue"
+            style={
+              {
+                opacity: 1 - easeOutCubic(clamp(transitionProgress / 0.24)),
+              } as CSSProperties
+            }
+          >
+            <div className="scroll-brew-cue-icon" aria-hidden="true">
+              <span />
+            </div>
+            <div className="scroll-brew-cue-text">
+              <span aria-hidden="true">+</span>
+              <p>Scroll to stir the brew</p>
+              <span aria-hidden="true">+</span>
+            </div>
+          </div>
+        )}
+
         <div
           aria-hidden="true"
           className={`spell-flash ${isExploding ? "spell-flash-active" : ""}`}
