@@ -44,8 +44,7 @@ function BrewCustomizerModal({
           ×
         </button>
         <BrewCustomizer
-          selectedItem={item}
-          selectedIsDrink
+          item={item}
           options={options}
           selectedPrice={selectedPrice}
           onSetOption={onSetOption}

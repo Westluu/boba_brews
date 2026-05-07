@@ -1,4 +1,4 @@
-import type { MenuGroup, MenuItem } from "../data/menu";
+import type { MenuItem } from "../data/menu";
 import {
   DEFAULT_OPTIONS,
   TAX_RATE,
@@ -56,15 +56,10 @@ export const toggleBrewTopping = (
   };
 };
 
-export const isDrinkGroup = (group: MenuGroup) => group.kind === "drink";
-
-export const findGroupForItem = (
-  groups: MenuGroup[],
-  item: MenuItem,
-): MenuGroup | undefined =>
-  groups.find((group) =>
-    group.items.some((candidate) => candidate.name === item.name),
-  );
+const cloneCartInput = (input: AddCartInput): AddCartInput => ({
+  ...input,
+  options: input.options ? cloneBrewOptions(input.options) : null,
+});
 
 export const createDrinkCartInput = (
   item: MenuItem,
@@ -83,7 +78,7 @@ export const createTreatCartInput = (item: MenuItem): AddCartInput => ({
 
 export const toCartItem = (id: number, input: AddCartInput): CartItem => ({
   id,
-  ...input,
+  ...cloneCartInput(input),
 });
 
 export const calculateCartTotals = (

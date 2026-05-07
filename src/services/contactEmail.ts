@@ -1,9 +1,4 @@
-export type ContactEmailPayload = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
+import type { ContactEmailPayload } from "../domain/contact";
 
 export const CONTACT_EMAIL_RECIPIENT = "af12d6d198c27a86981e8bd279026f17";
 
