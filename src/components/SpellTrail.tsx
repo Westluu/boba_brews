@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import brewingVideo from "../../assets/brewing-scrub.mp4?url";
+import brewingVideo from "../../assets/brewing-scrub-optimized.mp4?url";
 
 type SpellTrailProps = {
   progress: number;
@@ -46,7 +46,7 @@ function SpellTrail({ progress, visible }: SpellTrailProps) {
       ref={videoRef}
       muted
       playsInline
-      preload="auto"
+      preload="metadata"
       className="absolute inset-0 z-20 h-full w-full object-cover transition-opacity duration-150"
       style={{ opacity: brewProgress > 0 ? 1 : 0 }}
     >

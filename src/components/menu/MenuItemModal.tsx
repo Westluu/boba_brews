@@ -18,7 +18,7 @@ function MenuItemModal({ item, onClose }: MenuItemModalProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="menu-item-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8"
+      className="fixed inset-0 z-50 flex items-center justify-center px-3 py-4 sm:px-4 sm:py-8"
     >
       <button
         type="button"
@@ -26,7 +26,7 @@ function MenuItemModal({ item, onClose }: MenuItemModalProps) {
         onClick={onClose}
         className="absolute inset-0 cursor-default bg-black/70 backdrop-blur-sm"
       />
-      <div className="relative w-full max-w-md animate-[fadeIn_180ms_ease-out] rounded-[1.2rem] border border-[#b9876d] bg-[#07091ef2] px-6 pb-6 pt-5 shadow-[0_28px_70px_rgba(0,0,0,0.6),inset_0_0_30px_rgba(113,74,150,0.18)]">
+      <div className="relative max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto animate-[fadeIn_180ms_ease-out] rounded-[1.2rem] border border-[#b9876d] bg-[#07091ef2] px-4 pb-5 pt-5 shadow-[0_28px_70px_rgba(0,0,0,0.6),inset_0_0_30px_rgba(113,74,150,0.18)] sm:px-6 sm:pb-6">
         <span className="absolute -right-1 top-3 font-display text-xl text-[#f8dfb2]">
           +
         </span>
@@ -49,7 +49,7 @@ function MenuItemModal({ item, onClose }: MenuItemModalProps) {
           <div className="mt-1 flex items-center gap-2">
             <h2
               id="menu-item-modal-title"
-              className="font-display text-3xl text-[#f8dfb2] [text-shadow:0_0_14px_rgba(248,223,178,0.18)]"
+              className="font-display text-2xl text-[#f8dfb2] [text-shadow:0_0_14px_rgba(248,223,178,0.18)] sm:text-3xl"
             >
               {item.name}
             </h2>

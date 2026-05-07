@@ -1,5 +1,5 @@
-import { useState, type FormEvent, type ReactNode } from "react";
-import contactBg from "../assets/contact/contact-bg.png";
+import { useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
+import contactBg from "../assets/contact/contact-bg.jpg";
 import emailCat from "../assets/contact/email-cat.png";
 import {
   CONTACT_EMAIL_RECIPIENT,
@@ -64,7 +64,7 @@ function IconCircle({ children, ariaLabel }: IconCircleProps) {
   return (
     <span
       aria-label={ariaLabel}
-      className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-[#9d6d67] bg-[#07091e88] text-[#d8b4fe] shadow-[inset_0_0_18px_rgba(192,132,252,0.16),0_0_18px_rgba(157,109,103,0.12)]"
+      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#9d6d67] bg-[#07091e88] text-[#d8b4fe] shadow-[inset_0_0_18px_rgba(192,132,252,0.16),0_0_18px_rgba(157,109,103,0.12)] sm:h-20 sm:w-20"
     >
       {children}
     </span>
@@ -73,7 +73,7 @@ function IconCircle({ children, ariaLabel }: IconCircleProps) {
 
 function MailIcon() {
   return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-11 w-11">
+    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-8 w-8 sm:h-11 sm:w-11">
       <path
         d="M8 14h32v22H8z"
         fill="#7b3fc8"
@@ -95,7 +95,7 @@ function MailIcon() {
 
 function ChatIcon() {
   return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-11 w-11">
+    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-8 w-8 sm:h-11 sm:w-11">
       <path
         d="M10 13h28c3 0 5 2.2 5 5v10c0 2.8-2 5-5 5H25l-9 7v-7h-6c-3 0-5-2.2-5-5V18c0-2.8 2-5 5-5Z"
         fill="#8a4fd8"
@@ -116,7 +116,7 @@ function ChatIcon() {
 
 function PinIcon() {
   return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-12 w-12">
+    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-9 w-9 sm:h-12 sm:w-12">
       <path
         d="M24 43s14-13.2 14-25A14 14 0 1 0 10 18c0 11.8 14 25 14 25Z"
         fill="#f8dfb2"
@@ -131,7 +131,7 @@ function PinIcon() {
 
 function ClockIcon() {
   return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-12 w-12">
+    <svg viewBox="0 0 48 48" aria-hidden="true" className="h-9 w-9 sm:h-12 sm:w-12">
       <circle
         cx="24"
         cy="24"
@@ -225,36 +225,32 @@ function ContactPage() {
     <div className="relative min-h-screen bg-[#0b0717] text-cream">
 
       <div
-        className="relative min-h-screen overflow-hidden px-4 pb-8 pt-24 sm:px-8"
+        className="contact-page-bg relative min-h-screen overflow-hidden px-3 pb-6 pt-24 sm:px-8 sm:pb-8"
         style={{
-          backgroundImage: `linear-gradient(180deg, rgba(11,7,23,0.32), rgba(11,7,23,0.78)), url(${contactBg})`,
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundAttachment: "fixed",
+          "--contact-background-image": `linear-gradient(180deg, rgba(11,7,23,0.32), rgba(11,7,23,0.78)), url(${contactBg})`,
           backgroundColor: "#0b0717",
-        }}
+        } as CSSProperties}
       >
-        <section className="relative mx-auto grid min-h-[24rem] max-w-[120rem] grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-stretch gap-4 sm:min-h-[28rem] lg:min-h-[33rem]">
+        <section className="relative mx-auto grid max-w-[120rem] items-center gap-1 sm:min-h-[28rem] sm:gap-4 lg:min-h-[33rem] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div className="relative z-10 flex h-full items-center justify-center text-center">
             <div>
-              <div className="flex items-end justify-center gap-4">
-                <h1 className="font-display text-6xl leading-none text-[#f8dfb2] [text-shadow:0_0_18px_rgba(248,223,178,0.18),0_10px_34px_rgba(0,0,0,0.6)] sm:text-8xl">
+              <div className="flex items-end justify-center gap-2 sm:gap-4">
+                <h1 className="font-display text-5xl leading-none text-[#f8dfb2] [text-shadow:0_0_18px_rgba(248,223,178,0.18),0_10px_34px_rgba(0,0,0,0.6)] sm:text-8xl">
                   Contact Us
                 </h1>
-                <span className="font-display text-5xl text-[#ffd67e] sm:text-6xl">
+                <span className="font-display text-4xl text-[#ffd67e] sm:text-6xl">
                   ☾
                 </span>
               </div>
-              <p className="mx-auto mt-3 max-w-[36rem] font-display text-2xl text-[#d986e8] sm:text-3xl">
+              <p className="mx-auto mt-2 max-w-[22rem] font-display text-xl leading-tight text-[#d986e8] sm:mt-3 sm:max-w-[36rem] sm:text-3xl">
                 We'd love to hear from you, curious one!
               </p>
               <div className="mx-auto mt-3 h-px w-44 bg-gradient-to-r from-transparent via-[#c084fc88] to-transparent" />
-              <p className="mx-auto mt-6 max-w-[34rem] font-display text-xl leading-8 text-[#dfd5d0] sm:text-2xl">
+              <p className="mx-auto mt-4 max-w-[24rem] font-display text-lg leading-6 text-[#dfd5d0] sm:mt-6 sm:max-w-[34rem] sm:text-2xl sm:leading-8">
                 Have a question, a suggestion, or just want to say hi?
-                <br />
+                <br className="hidden sm:block" />
                 Send us a message and we'll get back to you
-                <br />
+                <br className="hidden sm:block" />
                 as soon as our little cauldron isn't bubbling over!{" "}
                 <span aria-hidden="true" className="text-[#c084fc]">
                   ♥
@@ -263,47 +259,47 @@ function ContactPage() {
             </div>
           </div>
 
-          <div className="relative flex h-full items-center justify-start">
+          <div className="relative flex h-44 items-center justify-center overflow-hidden sm:h-full sm:justify-start">
             <img
               src={emailCat}
               alt="Wizard cat typing on a laptop"
-              className="pointer-events-none h-full max-h-[33rem] w-full scale-110 object-contain object-left drop-shadow-[0_22px_44px_rgba(0,0,0,0.55)] sm:scale-115 lg:scale-125"
+              className="pointer-events-none h-full max-h-[33rem] w-full object-contain object-center drop-shadow-[0_22px_44px_rgba(0,0,0,0.55)] sm:scale-115 sm:object-left lg:scale-125"
               draggable="false"
             />
           </div>
         </section>
 
-        <section className="relative z-10 mx-auto mt-5 grid max-w-[120rem] gap-6 lg:grid-cols-2">
-          <article className="rounded-[1.25rem] border border-[#9d6d67] bg-[#07091ee8] px-8 py-9 shadow-[0_24px_60px_rgba(0,0,0,0.48)]">
-            <h2 className="text-center font-display text-5xl text-[#f8dfb2]">
+        <section className="relative z-10 mx-auto mt-4 grid max-w-[120rem] gap-4 sm:mt-5 sm:gap-6 lg:grid-cols-2">
+          <article className="rounded-[1rem] border border-[#9d6d67] bg-[#07091ee8] px-4 py-5 shadow-[0_24px_60px_rgba(0,0,0,0.48)] sm:rounded-[1.25rem] sm:px-8 sm:py-9">
+            <h2 className="text-center font-display text-4xl text-[#f8dfb2] sm:text-5xl">
               <span className="mr-2 text-[#ffd67e]">✦</span>
               Say Hello
               <span className="ml-2 text-[#ffd67e]">✦</span>
             </h2>
 
-            <ul className="mx-auto mt-9 grid max-w-[34rem] gap-7">
-              <li className="flex items-center gap-7">
+            <ul className="mx-auto mt-5 grid max-w-[34rem] gap-5 sm:mt-9 sm:gap-7">
+              <li className="flex items-center gap-4 sm:gap-7">
                 <IconCircle ariaLabel="Email">
                   <MailIcon />
                 </IconCircle>
-                <div>
-                  <p className="font-display text-3xl text-[#d986e8]">Email</p>
-                  <p className="mt-1 font-display text-2xl leading-8 text-[#f8dfb2]">
+                <div className="min-w-0">
+                  <p className="font-display text-2xl text-[#d986e8] sm:text-3xl">Email</p>
+                  <p className="mt-1 break-all font-display text-xl leading-6 text-[#f8dfb2] sm:text-2xl sm:leading-8">
                     hello@bobasbrews.com
                   </p>
                 </div>
               </li>
 
-              <li className="flex items-center gap-7">
+              <li className="flex items-center gap-4 sm:gap-7">
                 <IconCircle ariaLabel="Socials">
                   <ChatIcon />
                 </IconCircle>
-                <div>
-                  <p className="font-display text-3xl text-[#d986e8]">Socials</p>
-                  <p className="mt-1 font-display text-2xl leading-8 text-[#f8dfb2]">
+                <div className="min-w-0">
+                  <p className="font-display text-2xl text-[#d986e8] sm:text-3xl">Socials</p>
+                  <p className="mt-1 font-display text-xl leading-6 text-[#f8dfb2] sm:text-2xl sm:leading-8">
                     @bobasbrews
                   </p>
-                  <div className="mt-3 flex gap-3">
+                  <div className="mt-3 flex flex-wrap gap-2 sm:gap-3">
                     <SocialBadge label="Instagram" symbol="◎" />
                     <SocialBadge label="TikTok" symbol="♪" />
                     <SocialBadge label="Facebook" symbol="f" />
@@ -312,13 +308,13 @@ function ContactPage() {
                 </div>
               </li>
 
-              <li className="flex items-center gap-7">
+              <li className="flex items-center gap-4 sm:gap-7">
                 <IconCircle ariaLabel="Location">
                   <PinIcon />
                 </IconCircle>
-                <div>
-                  <p className="font-display text-3xl text-[#d986e8]">Location</p>
-                  <p className="mt-1 font-display text-2xl leading-8 text-[#f8dfb2]">
+                <div className="min-w-0">
+                  <p className="font-display text-2xl text-[#d986e8] sm:text-3xl">Location</p>
+                  <p className="mt-1 font-display text-xl leading-6 text-[#f8dfb2] sm:text-2xl sm:leading-8">
                     123 Moonlight Lane
                     <br />
                     Starry Town, CA 90210
@@ -326,13 +322,13 @@ function ContactPage() {
                 </div>
               </li>
 
-              <li className="flex items-center gap-7">
+              <li className="flex items-center gap-4 sm:gap-7">
                 <IconCircle ariaLabel="Hours">
                   <ClockIcon />
                 </IconCircle>
-                <div>
-                  <p className="font-display text-3xl text-[#d986e8]">Hours</p>
-                  <p className="mt-1 font-display text-2xl leading-8 text-[#f8dfb2]">
+                <div className="min-w-0">
+                  <p className="font-display text-2xl text-[#d986e8] sm:text-3xl">Hours</p>
+                  <p className="mt-1 font-display text-xl leading-6 text-[#f8dfb2] sm:text-2xl sm:leading-8">
                     Mon – Fri: 11AM – 9PM
                     <br />
                     Sat – Sun: 10AM – 10PM
@@ -342,13 +338,13 @@ function ContactPage() {
             </ul>
           </article>
 
-          <article className="rounded-[1.25rem] border border-[#9d6d67] bg-[#07091ee8] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.48)]">
-            <h2 className="text-center font-display text-4xl text-[#f8dfb2]">
+          <article className="rounded-[1rem] border border-[#9d6d67] bg-[#07091ee8] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.48)] sm:rounded-[1.25rem] sm:p-7">
+            <h2 className="text-center font-display text-3xl text-[#f8dfb2] sm:text-4xl">
               Send Us a Message
             </h2>
-            <p className="mt-2 text-center font-display text-xl leading-7 text-[#dfd5d0]">
+            <p className="mt-2 text-center font-display text-lg leading-6 text-[#dfd5d0] sm:text-xl sm:leading-7">
               Fill out the form below and we'll get back to you
-              <br />
+              <br className="hidden sm:block" />
               as soon as we can!
             </p>
 
@@ -403,7 +399,7 @@ function ContactPage() {
                 type="submit"
                 variant="primary"
                 loading={isLoading}
-                className="mt-1 w-full"
+                  className="mt-1 w-full"
               >
                 {isLoading ? "Sending…" : (
                   <>

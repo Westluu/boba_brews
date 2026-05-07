@@ -42,7 +42,7 @@ export function Button({
       disabled={isDisabled}
       aria-busy={loading || undefined}
       className={[
-        "inline-flex items-center justify-center gap-3 rounded-[1rem] border px-6 py-3 font-display text-3xl transition-colors duration-200 focus:outline-none",
+        "inline-flex items-center justify-center gap-3 rounded-[1rem] border px-5 py-3 font-display text-2xl transition-colors duration-200 focus:outline-none sm:px-6 sm:text-3xl",
         "disabled:cursor-not-allowed disabled:opacity-60",
         VARIANT_CLASSES[variant],
         className,

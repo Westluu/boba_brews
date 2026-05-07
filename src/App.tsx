@@ -1,17 +1,18 @@
-import { useCallback } from "react";
+import { lazy, Suspense, useCallback } from "react";
 import {
   Navigate,
   Route,
   Routes,
   useNavigate,
 } from "react-router-dom";
-import AboutPage from "./components/AboutPage";
-import ContactPage from "./components/ContactPage";
-import LandingPage from "./components/LandingPage";
-import MenuPage from "./components/MenuPage";
 import Navbar from "./components/Navbar";
-import OrderPage from "./components/OrderPage";
 import { MENU_ROUTES, ROUTES } from "./config/navigation";
+
+const AboutPage = lazy(() => import("./components/AboutPage"));
+const ContactPage = lazy(() => import("./components/ContactPage"));
+const LandingPage = lazy(() => import("./components/LandingPage"));
+const MenuPage = lazy(() => import("./components/MenuPage"));
+const OrderPage = lazy(() => import("./components/OrderPage"));
 
 function App() {
   const navigate = useNavigate();
@@ -27,31 +28,39 @@ function App() {
         orderHref={ROUTES.order}
         variant="persistent"
       />
-      <Routes>
-        <Route
-          path={ROUTES.home}
-          element={<LandingPage onMenuReveal={handleMenuReveal} />}
-        />
-        {MENU_ROUTES.map(({ path, sectionId }) => {
-          if (path === ROUTES.about) {
-            return <Route key={path} path={path} element={<AboutPage />} />;
-          }
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-black pt-28 text-center font-display text-3xl text-cream">
+            Brewing...
+          </div>
+        }
+      >
+        <Routes>
+          <Route
+            path={ROUTES.home}
+            element={<LandingPage onMenuReveal={handleMenuReveal} />}
+          />
+          {MENU_ROUTES.map(({ path, sectionId }) => {
+            if (path === ROUTES.about) {
+              return <Route key={path} path={path} element={<AboutPage />} />;
+            }
 
-          if (path === ROUTES.contact) {
-            return <Route key={path} path={path} element={<ContactPage />} />;
-          }
+            if (path === ROUTES.contact) {
+              return <Route key={path} path={path} element={<ContactPage />} />;
+            }
 
-          return (
-            <Route
-              key={path}
-              path={path}
-              element={<MenuPage sectionId={sectionId} />}
-            />
-          );
-        })}
-        <Route path={ROUTES.order} element={<OrderPage />} />
-        <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
-      </Routes>
+            return (
+              <Route
+                key={path}
+                path={path}
+                element={<MenuPage sectionId={sectionId} />}
+              />
+            );
+          })}
+          <Route path={ROUTES.order} element={<OrderPage />} />
+          <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
+        </Routes>
+      </Suspense>
     </main>
   );
 }
