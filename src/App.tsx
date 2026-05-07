@@ -8,6 +8,7 @@ import {
 import LandingPage from "./components/LandingPage";
 import MenuPage from "./components/MenuPage";
 import Navbar from "./components/Navbar";
+import OrderPage from "./components/OrderPage";
 import { MENU_ROUTES, ROUTES } from "./config/navigation";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
     <main>
       <Navbar
         homeHref={ROUTES.home}
-        orderHref={ROUTES.menu}
+        orderHref={ROUTES.order}
         variant="persistent"
       />
       <Routes>
@@ -36,6 +37,7 @@ function App() {
             element={<MenuPage sectionId={sectionId} />}
           />
         ))}
+        <Route path={ROUTES.order} element={<OrderPage />} />
         <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
       </Routes>
     </main>

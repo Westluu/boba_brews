@@ -9,6 +9,7 @@ export const ROUTES = {
   about: "/about",
   magic: "/magic",
   contact: "/contact",
+  order: "/order",
 } as const;
 
 export type MenuSectionId = "menu" | "about" | "magic" | "contact";
@@ -28,4 +29,5 @@ export const MENU_ROUTES: MenuRoute[] = [
 
 export const NAV_ITEMS: NavItem[] = [
   ...MENU_ROUTES.map(({ label, path }) => ({ label, href: path })),
+  { label: "Order", href: ROUTES.order },
 ];
