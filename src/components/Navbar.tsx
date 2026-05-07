@@ -1,4 +1,4 @@
-import type { MouseEventHandler, ReactNode } from "react";
+import { useState, type MouseEventHandler, type ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { NAV_ITEMS, ROUTES, type NavItem } from "../config/navigation";
 import wizardCat from "../assets/wizard-cat.png";
@@ -113,11 +113,11 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
   },
   persistent: {
     header: "fixed inset-x-0 top-0 z-20 w-full",
-    nav: "mx-auto flex h-24 max-w-[1400px] items-center justify-between gap-4 px-6 pt-4 sm:px-10",
-    logo: "h-20 w-20 object-contain",
-    list: "scrollbar-hidden ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-8 sm:ml-8 sm:gap-14 lg:gap-20",
-    link: "text-2xl sm:text-4xl",
-    order: "group relative -mt-4 shrink-0 focus:outline-none",
+    nav: "relative mx-auto flex h-20 max-w-[1400px] items-center justify-between gap-2 px-5 pt-3 sm:h-24 sm:gap-4 sm:px-10 sm:pt-4",
+    logo: "h-12 w-12 object-contain sm:h-20 sm:w-20",
+    list: "scrollbar-hidden ml-2 hidden min-w-0 flex-1 items-center gap-4 overflow-x-auto sm:ml-8 sm:flex sm:gap-14 lg:gap-20",
+    link: "text-xl sm:text-4xl",
+    order: "group absolute right-5 top-[4.85rem] z-10 shrink-0 focus:outline-none sm:relative sm:right-auto sm:top-auto sm:-mt-4",
     orderImage:
       "h-[15rem] w-auto object-contain transition-transform duration-300 group-hover:rotate-1 group-hover:scale-105 group-focus-visible:rotate-1 group-focus-visible:scale-105",
     orderKind: "sign",
@@ -135,6 +135,7 @@ export function Navbar({
   variant = "hero",
 }: NavbarProps) {
   const styles = NAVBAR_STYLES[variant];
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const orderContent =
     styles.orderKind === "button" ? (
       <span className="inline-flex items-center rounded-full border border-[#e5bc8a66] bg-[#160b1ddd] px-5 py-2 font-display text-xl text-cream shadow-[0_0_24px_rgba(110,63,176,0.22)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 group-focus-visible:-translate-y-0.5 group-focus-visible:scale-105">
@@ -151,13 +152,18 @@ export function Navbar({
           href={homeHref}
           onClick={onHomeClick}
           ariaLabel="Boba Brews home"
-          className="flex shrink-0 items-center"
+          className="flex shrink-0 items-center gap-3"
         >
           <img
             src={wizardCat}
             alt="Boba Brews wizard cat logo"
             className={styles.logo}
           />
+          {variant === "persistent" && (
+            <span className="font-display text-[clamp(1.75rem,8vw,2.45rem)] leading-none text-cream [text-shadow:0_4px_18px_rgba(0,0,0,0.5)] sm:hidden">
+              Boba&apos;s Brews
+            </span>
+          )}
         </LinkContent>
 
         <ul className={styles.list}>
@@ -204,15 +210,80 @@ export function Navbar({
           })}
         </ul>
 
+        {variant === "persistent" && (
+          <button
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+            className="flex h-12 w-12 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full text-[#b985ef] transition hover:text-magic-light focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d77cdd]/70 sm:hidden"
+          >
+            <span className="h-1 w-8 rounded-full bg-current shadow-[0_0_10px_rgba(185,133,239,0.36)]" />
+            <span className="h-1 w-8 rounded-full bg-current shadow-[0_0_10px_rgba(185,133,239,0.36)]" />
+            <span className="h-1 w-8 rounded-full bg-current shadow-[0_0_10px_rgba(185,133,239,0.36)]" />
+          </button>
+        )}
+
         {showOrder && (
           <LinkContent
             href={orderHref}
             onClick={onOrderClick}
             ariaLabel="Order"
-            className={styles.order}
+            className={[
+              styles.order,
+              styles.orderKind === "sign" ? "hidden sm:block" : "",
+            ].join(" ")}
           >
             {orderContent}
           </LinkContent>
+        )}
+
+        {variant === "persistent" && isMobileMenuOpen && (
+          <div className="absolute right-5 top-20 z-30 w-48 rounded-[1rem] border border-[#e5bc8a66] bg-[#07091ef2] p-3 shadow-[0_20px_46px_rgba(0,0,0,0.48)] backdrop-blur-md sm:hidden">
+            <div className="grid gap-1">
+              {items.map((item) =>
+                isRouteHref(item.href) ? (
+                  <NavLink
+                    key={item.label}
+                    to={item.href}
+                    end
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      [
+                        "rounded-[0.7rem] px-4 py-2 font-display text-2xl text-cream transition hover:bg-[#f8dfb2]/10 hover:text-magic-light focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d77cdd]/70",
+                        isActive || item.label === active
+                          ? "bg-[#f8dfb2]/10 text-magic-light"
+                          : "",
+                      ].join(" ")
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="rounded-[0.7rem] px-4 py-2 font-display text-2xl text-cream transition hover:bg-[#f8dfb2]/10 hover:text-magic-light focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d77cdd]/70"
+                  >
+                    {item.label}
+                  </a>
+                ),
+              )}
+              {showOrder && (
+                <LinkContent
+                  href={orderHref}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    onOrderClick?.();
+                  }}
+                  className="rounded-[0.7rem] px-4 py-2 font-display text-2xl text-cream transition hover:bg-[#f8dfb2]/10 hover:text-magic-light focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d77cdd]/70"
+                >
+                  Order
+                </LinkContent>
+              )}
+            </div>
+          </div>
         )}
       </nav>
     </header>

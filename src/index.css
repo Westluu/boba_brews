@@ -104,6 +104,10 @@ body,
   object-position: 72% center;
 }
 
+.hero-mobile-still {
+  object-position: center top;
+}
+
 .hero-title-layer {
   position: absolute;
   inset: 0;
@@ -299,6 +303,14 @@ body,
   will-change: opacity, transform;
 }
 
+.menu-page-bg {
+  background-image: var(--menu-background-image);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+}
+
 @media (min-width: 640px) {
   .hero-title-layer {
     grid-template-columns: minmax(0, 34rem) 1fr;
@@ -313,6 +325,12 @@ body,
   .hero-title-subtitle {
     max-width: 23rem;
     font-size: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .menu-page-bg {
+    background-attachment: fixed;
   }
 }
 

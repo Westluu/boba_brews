@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Link } from "react-router-dom";
 import cauldron from "../assets/cauldron.png";
+import mobileHeroStill from "../assets/mobile-hero-still.png";
 import BobaCup from "./BobaCup";
 import HeroTitle from "./HeroTitle";
 import SpellTrail from "./SpellTrail";
 import { useElementSize } from "../hooks/useElementSize";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useScrollProgress } from "../hooks/useScrollProgress";
+import { ROUTES } from "../config/navigation";
 
 import startVideo from "../../assets/start.mp4?url";
 
@@ -25,6 +29,9 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   const introVideoRef = useRef<HTMLVideoElement>(null);
   const scrollStageRef = useRef<HTMLDivElement>(null);
   const { ref: heroRef, size: heroSize } = useElementSize<HTMLElement>();
+  const { ref: mobileTitleRef, size: mobileTitleSize } =
+    useElementSize<HTMLHeadingElement>();
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const spellProgress = useScrollProgress(scrollStageRef);
   const transitionProgress = hasFinishedIntro ? spellProgress : 0;
   const cauldronRise = easeOutCubic(clamp((transitionProgress - 0.02) / 0.38));
@@ -35,7 +42,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   const isBrewing = transitionProgress >= 0.76;
 
   useEffect(() => {
-    if (hasFinishedIntro) {
+    if (isMobile || hasFinishedIntro) {
       return;
     }
 
@@ -49,10 +56,11 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
       document.documentElement.style.overflow = htmlOverflow;
       document.body.style.overflow = bodyOverflow;
     };
-  }, [hasFinishedIntro]);
+  }, [hasFinishedIntro, isMobile]);
 
   useEffect(() => {
     if (
+      isMobile ||
       !hasFinishedIntro ||
       hasTriggeredMenuRevealRef.current ||
       transitionProgress < MENU_REVEAL_PROGRESS
@@ -65,7 +73,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
     menuRevealTimeoutRef.current = window.setTimeout(() => {
       onMenuReveal();
     }, MENU_REVEAL_DELAY_MS);
-  }, [hasFinishedIntro, onMenuReveal, transitionProgress]);
+  }, [hasFinishedIntro, isMobile, onMenuReveal, transitionProgress]);
 
   useEffect(() => {
     return () => {
@@ -74,6 +82,53 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
       }
     };
   }, []);
+
+  if (isMobile) {
+    return (
+      <div className="relative min-h-svh overflow-hidden bg-black text-cream">
+        <img
+          src={mobileHeroStill}
+          alt=""
+          aria-hidden="true"
+          className="hero-mobile-still absolute inset-0 h-full w-full object-cover"
+          draggable="false"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/16 via-transparent to-black/12" />
+
+        <section
+          id="home"
+          aria-label="Boba Brews"
+          className="relative z-10 min-h-svh px-[clamp(1.25rem,6vw,2rem)] pb-8 pt-[clamp(7.6rem,15svh,9.25rem)]"
+        >
+          <div className="max-w-[82vw]">
+            <h1
+              ref={mobileTitleRef}
+              className="w-fit font-display text-[clamp(4.15rem,18vw,6.1rem)] leading-[0.88] text-cream [text-shadow:0_0_18px_rgba(245,230,197,0.2),0_6px_22px_rgba(0,0,0,0.7)]"
+            >
+              <span className="block">Boba&apos;s</span>
+              <span className="block">Brews</span>
+            </h1>
+            <p className="mt-[clamp(1.35rem,4.5svh,2.3rem)] max-w-[18rem] font-display text-[clamp(1.75rem,7.7vw,2.35rem)] leading-tight text-[#c69cff] [text-shadow:0_4px_20px_rgba(0,0,0,0.55)]">
+              Curious drinks for curious creatures
+            </p>
+            <Link
+              to={ROUTES.menu}
+              className="mt-[clamp(1.7rem,5svh,3rem)] inline-flex min-h-[3.6rem] max-w-full items-center justify-center gap-2 rounded-full border border-[#f5e6c5cc] bg-[#3a184bdf] px-4 font-display text-[clamp(1.45rem,6.2vw,1.9rem)] leading-none text-cream shadow-[0_0_18px_rgba(198,156,255,0.55),inset_0_0_24px_rgba(255,255,255,0.07)] transition hover:-translate-y-0.5 hover:text-[#fff4d6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d77cdd]/70"
+              style={{
+                width: mobileTitleSize.width
+                  ? `${mobileTitleSize.width}px`
+                  : undefined,
+              }}
+            >
+              <span aria-hidden="true">✩</span>
+              Menu
+              <span aria-hidden="true">✩</span>
+            </Link>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div
