@@ -27,7 +27,6 @@ export const MENU_ROUTES: MenuRoute[] = [
   { label: "Contact", path: ROUTES.contact, sectionId: "contact" },
 ];
 
-export const NAV_ITEMS: NavItem[] = [
-  ...MENU_ROUTES.map(({ label, path }) => ({ label, href: path })),
-  { label: "Order", href: ROUTES.order },
-];
+export const NAV_ITEMS: NavItem[] = MENU_ROUTES.filter(
+  ({ sectionId }) => sectionId !== "magic",
+).map(({ label, path }) => ({ label, href: path }));

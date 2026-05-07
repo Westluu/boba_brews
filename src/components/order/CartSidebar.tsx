@@ -29,7 +29,7 @@ function CartSidebar({ items, subtotal, tax, total, onRemove }: CartSidebarProps
           </span>
         </div>
         <h2 className="font-display text-5xl leading-none text-[#f8dfb2]">
-          ♣ Your Cauldron ♣
+          Your Cauldron
         </h2>
         <p className="mt-2 font-display text-2xl text-[#f8dfb2]">
           Review your magical order.

@@ -13,7 +13,7 @@ function OrderCategoryTabs({
   onSelectGroup,
 }: OrderCategoryTabsProps) {
   return (
-    <section className="relative mx-auto max-w-[130rem]">
+    <section className="relative">
       <div className="flex gap-3 overflow-x-auto border-b border-[#9d6d67]/70 pb-0">
         {groups.map((group) => {
           const isActive = group.title === activeGroupTitle;

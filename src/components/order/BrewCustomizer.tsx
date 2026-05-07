@@ -31,10 +31,10 @@ function BrewCustomizer({
   return (
     <div className="rounded-[1rem] border border-[#9d6d67] bg-[#07091ee8] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.46),inset_0_0_28px_rgba(113,74,150,0.13)]">
       <div className="text-center">
-        <h2 className="font-display text-5xl leading-none text-[#e4a0f1]">
-          ✦ Customize Your Brew ✦
+        <h2 className="font-display text-4xl leading-none text-[#ffd8a0]">
+          Customize Your Brew
         </h2>
-        <p className="mt-2 font-display text-2xl text-[#e4a0f1]">
+        <p className="mt-2 font-display text-xl text-[#dfd5d0]">
           Make it yours. Every detail adds magic.
         </p>
       </div>
