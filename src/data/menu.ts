@@ -1,3 +1,20 @@
+import berryNebulaTea from "../assets/menu/fruit-potions/berry-nebula-tea.png";
+import lycheeLuna from "../assets/menu/fruit-potions/lychee-luna.png";
+import mangoMeteor from "../assets/menu/fruit-potions/mango-meteor.png";
+import peachComet from "../assets/menu/fruit-potions/peach-comet.png";
+import classicMilkTea from "../assets/menu/milk-teas/classic-milk-tea.png";
+import moonMilkTea from "../assets/menu/milk-teas/moon-milk-tea.png";
+import starlightThaiTea from "../assets/menu/milk-teas/starlight-thai-tea.png";
+import taroMilkTea from "../assets/menu/milk-teas/taro-milk-tea.png";
+import brownSugarBoba from "../assets/menu/signature-brews/brown-sugar-boba.png";
+import lavenderHojicha from "../assets/menu/signature-brews/lavendar-hojicha.png";
+import vanillaCloud from "../assets/menu/signature-brews/vanilla-cloud.png";
+import witchMatcha from "../assets/menu/signature-brews/witch-matcha.png";
+import catPawCookie from "../assets/menu/tiny-treats/cat-paw-cookie.png";
+import galaxyPudding from "../assets/menu/tiny-treats/galaxy-pudding.png";
+import mochiStars from "../assets/menu/tiny-treats/mochi-stars.png";
+import moonCookies from "../assets/menu/tiny-treats/moon-cookies.png";
+
 export type MenuCharm =
   | "berries"
   | "lavender"
@@ -18,6 +35,7 @@ export type MenuItem = {
   details?: string;
   ingredients?: string[];
   caffeine?: string;
+  image?: string;
 };
 
 export type MenuGroup = {
@@ -45,6 +63,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.75",
         charm: "moon",
         caffeine: "Medium",
+        image: moonMilkTea,
       },
       {
         name: "Starlight Thai Tea",
@@ -60,6 +79,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.50",
         charm: "star",
         caffeine: "Medium",
+        image: starlightThaiTea,
       },
       {
         name: "Lavender Hojicha",
@@ -70,6 +90,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.75",
         charm: "lavender",
         caffeine: "Low",
+        image: lavenderHojicha,
       },
       {
         name: "Witch's Matcha",
@@ -80,6 +101,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.75",
         charm: "leaf",
         caffeine: "Medium",
+        image: witchMatcha,
       },
     ],
   },
@@ -95,6 +117,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         ingredients: ["Black tea", "Milk", "Brown sugar", "Boba pearls"],
         price: "$5.25",
         caffeine: "Medium",
+        image: classicMilkTea,
       },
       {
         name: "Brown Sugar Boba",
@@ -104,6 +127,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         ingredients: ["Brown sugar boba", "Milk", "Black tea"],
         price: "$5.75",
         caffeine: "Low",
+        image: brownSugarBoba,
       },
       {
         name: "Taro Milk Tea",
@@ -113,6 +137,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         ingredients: ["Taro", "Black tea", "Milk", "Cane sugar"],
         price: "$5.75",
         caffeine: "Medium",
+        image: taroMilkTea,
       },
       {
         name: "Vanilla Cloud",
@@ -122,6 +147,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         ingredients: ["Oolong tea", "Vanilla cream cap", "Cane sugar"],
         price: "$5.50",
         caffeine: "Medium",
+        image: vanillaCloud,
       },
     ],
   },
@@ -130,7 +156,7 @@ export const MENU_GROUPS: MenuGroup[] = [
     icon: "potion",
     items: [
       {
-        name: "Berry Nebula Tea",
+        name: "Berry Nebula",
         description: "Mixed berries with a hint of cosmos.",
         details:
           "Strawberry, blueberry, and raspberry shaken into iced green tea — bright, tart, and a little fizzy on the tongue.",
@@ -144,6 +170,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.75",
         charm: "berries",
         caffeine: "Low",
+        image: berryNebulaTea,
       },
       {
         name: "Mango Meteor",
@@ -154,6 +181,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.75",
         charm: "mango",
         caffeine: "Low",
+        image: mangoMeteor,
       },
       {
         name: "Lychee Luna",
@@ -164,6 +192,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.75",
         charm: "lychee",
         caffeine: "Low",
+        image: lycheeLuna,
       },
       {
         name: "Peach Comet",
@@ -174,6 +203,7 @@ export const MENU_GROUPS: MenuGroup[] = [
         price: "$5.50",
         charm: "peach",
         caffeine: "Low",
+        image: peachComet,
       },
     ],
   },
@@ -188,6 +218,7 @@ export const MENU_GROUPS: MenuGroup[] = [
           "Hand-shaped mochi with a sweet red bean filling, dusted with star anise sugar. Three to a plate.",
         ingredients: ["Glutinous rice flour", "Red bean", "Star anise sugar"],
         price: "$3.25",
+        image: mochiStars,
       },
       {
         name: "Moon Cookies",
@@ -196,6 +227,7 @@ export const MENU_GROUPS: MenuGroup[] = [
           "Crescent-shaped shortbread baked golden, with a soft vanilla center and a sugar dusting like fresh snow.",
         ingredients: ["Butter", "Flour", "Vanilla", "Powdered sugar"],
         price: "$2.75",
+        image: moonCookies,
       },
       {
         name: "Galaxy Pudding",
@@ -209,6 +241,7 @@ export const MENU_GROUPS: MenuGroup[] = [
           "Edible silver",
         ],
         price: "$3.75",
+        image: galaxyPudding,
       },
       {
         name: "Cat's Paw Bite",
@@ -217,6 +250,7 @@ export const MENU_GROUPS: MenuGroup[] = [
           "Warm chocolate cake with a molten fudge core, shaped into tiny paws. Boba's favorite, of course.",
         ingredients: ["Cocoa", "Butter", "Dark chocolate ganache", "Sea salt"],
         price: "$3.25",
+        image: catPawCookie,
       },
     ],
   },

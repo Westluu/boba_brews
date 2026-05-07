@@ -1,17 +1,7 @@
 import { useEffect, useRef } from "react";
-import type { MenuCharm, MenuItem } from "../../data/menu";
+import type { MenuItem } from "../../data/menu";
 import MenuItemArt from "./MenuItemArt";
-
-const ITEM_CHARMS: Record<MenuCharm, string> = {
-  berries: "●●",
-  lavender: "✣",
-  leaf: "⌁",
-  lychee: "●",
-  mango: "◆",
-  moon: "☾",
-  peach: "●",
-  star: "★",
-};
+import { ITEM_CHARMS } from "./menuSymbols";
 
 type MenuItemModalProps = {
   item: MenuItem;
