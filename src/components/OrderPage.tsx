@@ -2,32 +2,27 @@ import { useMemo, useState } from "react";
 import orderBrew from "../assets/order-brew.png";
 import menuBackground from "../assets/menu/background.png";
 import { MENU_GROUPS, type MenuGroup, type MenuItem } from "../data/menu";
+import type { OptionKey } from "../data/orderOptions";
 import {
-  DEFAULT_OPTIONS,
-  type BrewOptions,
-  type OptionKey,
-} from "../data/orderOptions";
-import { useCart } from "../hooks/useCart";
-import {
-  getDrinkPrice,
-  getTreatPrice,
+  createDrinkCartInput,
+  createTreatCartInput,
+  findGroupForItem,
+  getDefaultBrewOptions,
   isDrinkGroup,
-} from "../utils/pricing";
+  setBrewOption,
+  toggleBrewTopping,
+} from "../domain/order";
+import { useCart } from "../hooks/useCart";
+import { getDrinkPrice } from "../utils/pricing";
 import OrderCategoryTabs from "./order/OrderCategoryTabs";
 import OrderItemList from "./order/OrderItemList";
 import BrewCustomizerModal from "./order/BrewCustomizerModal";
 import CartSidebar from "./order/CartSidebar";
 
-function findGroupForItem(item: MenuItem) {
-  return MENU_GROUPS.find((group) =>
-    group.items.some((candidate) => candidate.name === item.name),
-  );
-}
-
 function OrderPage() {
   const [activeGroupTitle, setActiveGroupTitle] = useState(MENU_GROUPS[0].title);
   const [customizing, setCustomizing] = useState<MenuItem | null>(null);
-  const [options, setOptions] = useState<BrewOptions>(DEFAULT_OPTIONS);
+  const [options, setOptions] = useState(getDefaultBrewOptions);
 
   const cart = useCart();
 
@@ -38,20 +33,11 @@ function OrderPage() {
   );
 
   const setOption = (key: OptionKey, value: string) => {
-    setOptions((current) => ({ ...current, [key]: value }));
+    setOptions((current) => setBrewOption(current, key, value));
   };
 
   const toggleTopping = (topping: string) => {
-    setOptions((current) => {
-      const hasTopping = current.toppings.includes(topping);
-
-      return {
-        ...current,
-        toppings: hasTopping
-          ? current.toppings.filter((entry) => entry !== topping)
-          : [...current.toppings, topping],
-      };
-    });
+    setOptions((current) => toggleBrewTopping(current, topping));
   };
 
   const chooseGroup = (group: MenuGroup) => {
@@ -59,28 +45,20 @@ function OrderPage() {
   };
 
   const handleAdd = (item: MenuItem) => {
-    const group = findGroupForItem(item);
+    const group = findGroupForItem(MENU_GROUPS, item);
     if (group && isDrinkGroup(group)) {
-      setOptions(DEFAULT_OPTIONS);
+      setOptions(getDefaultBrewOptions());
       setCustomizing(item);
       return;
     }
-    cart.addItem({
-      item,
-      options: null,
-      price: getTreatPrice(item),
-    });
+    cart.addItem(createTreatCartInput(item));
   };
 
   const confirmCustomize = () => {
     if (!customizing) {
       return;
     }
-    cart.addItem({
-      item: customizing,
-      options: { ...options, toppings: [...options.toppings] },
-      price: getDrinkPrice(customizing, options),
-    });
+    cart.addItem(createDrinkCartInput(customizing, options));
     setCustomizing(null);
   };
 

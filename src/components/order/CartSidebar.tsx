@@ -1,4 +1,4 @@
-import type { CartItem } from "../../hooks/useCart";
+import type { CartItem } from "../../domain/order";
 import { formatCurrency } from "../../utils/pricing";
 import { ITEM_CHARMS } from "../menu/menuSymbols";
 import cauldron from "../../assets/cauldron.png";

@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { MenuItem } from "../../data/menu";
+import { useModalBehavior } from "../../hooks/useModalBehavior";
 import MenuItemArt from "./MenuItemArt";
 import { ITEM_CHARMS } from "./menuSymbols";
 
@@ -10,24 +11,7 @@ type MenuItemModalProps = {
 
 function MenuItemModal({ item, onClose }: MenuItemModalProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [onClose]);
+  useModalBehavior(onClose, closeButtonRef);
 
   return (
     <div

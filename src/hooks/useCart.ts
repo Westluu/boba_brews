@@ -1,30 +1,23 @@
 import { useMemo, useRef, useState } from "react";
-import type { MenuItem } from "../data/menu";
-import { TAX_RATE, type BrewOptions } from "../data/orderOptions";
+import {
+  calculateCartTotals,
+  toCartItem,
+  type AddCartInput,
+  type CartItem,
+} from "../domain/order";
 
-export type CartItem = {
-  id: number;
-  item: MenuItem;
-  options: BrewOptions | null;
-  price: number;
-};
-
-type AddCartInput = {
-  item: MenuItem;
-  options: BrewOptions | null;
-  price: number;
-};
+export type { CartItem } from "../domain/order";
 
 export function useCart(initial: AddCartInput[] = []) {
   const nextIdRef = useRef(initial.length + 1);
   const [items, setItems] = useState<CartItem[]>(() =>
-    initial.map((entry, index) => ({ id: index + 1, ...entry })),
+    initial.map((entry, index) => toCartItem(index + 1, entry)),
   );
 
   const addItem = (input: AddCartInput) => {
     setItems((current) => [
       ...current,
-      { id: nextIdRef.current++, ...input },
+      toCartItem(nextIdRef.current++, input),
     ]);
   };
 
@@ -32,11 +25,7 @@ export function useCart(initial: AddCartInput[] = []) {
     setItems((current) => current.filter((item) => item.id !== id));
   };
 
-  const totals = useMemo(() => {
-    const subtotal = items.reduce((total, item) => total + item.price, 0);
-    const tax = subtotal * TAX_RATE;
-    return { subtotal, tax, total: subtotal + tax };
-  }, [items]);
+  const totals = useMemo(() => calculateCartTotals(items), [items]);
 
   return { items, addItem, removeItem, ...totals };
 }

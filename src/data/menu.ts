@@ -25,6 +25,7 @@ export type MenuCharm =
   | "peach"
   | "star";
 export type MenuGroupIcon = "cup" | "potion" | "sparkles" | "treat";
+export type MenuGroupKind = "drink" | "treat";
 export type MenuNoteIcon = "leaf" | "moon" | "sparkles";
 
 export type MenuItem = {
@@ -40,6 +41,7 @@ export type MenuItem = {
 
 export type MenuGroup = {
   title: string;
+  kind: MenuGroupKind;
   icon: MenuGroupIcon;
   items: MenuItem[];
 };
@@ -52,6 +54,7 @@ export type MenuNote = {
 export const MENU_GROUPS: MenuGroup[] = [
   {
     title: "Signature Brews",
+    kind: "drink",
     icon: "sparkles",
     items: [
       {
@@ -107,6 +110,7 @@ export const MENU_GROUPS: MenuGroup[] = [
   },
   {
     title: "Milk Teas",
+    kind: "drink",
     icon: "cup",
     items: [
       {
@@ -153,6 +157,7 @@ export const MENU_GROUPS: MenuGroup[] = [
   },
   {
     title: "Fruit Potions",
+    kind: "drink",
     icon: "potion",
     items: [
       {
@@ -209,6 +214,7 @@ export const MENU_GROUPS: MenuGroup[] = [
   },
   {
     title: "Tiny Treats",
+    kind: "treat",
     icon: "treat",
     items: [
       {

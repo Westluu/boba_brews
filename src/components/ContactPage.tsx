@@ -280,7 +280,8 @@ function ContactPage() {
                 <div>
                   <p className="font-display text-3xl text-[#d986e8]">Email</p>
                   <p className="mt-1 font-display text-2xl leading-8 text-[#f8dfb2]">
-                    hello@bobasbrews.com
+                    hello@bobasbrews.com <br />
+                    west1luu@gmail.com
                   </p>
                 </div>
               </li>

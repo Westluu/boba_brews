@@ -1,4 +1,4 @@
-import type { MenuGroup, MenuItem } from "../data/menu";
+import type { MenuItem } from "../data/menu";
 import { TOPPINGS, type BrewOptions } from "../data/orderOptions";
 
 export const formatCurrency = (amount: number) =>
@@ -9,8 +9,6 @@ export const formatCurrency = (amount: number) =>
 
 export const priceAsNumber = (price: string) =>
   Number(price.replace(/[^0-9.]/g, "")) || 0;
-
-export const isDrinkGroup = (group: MenuGroup) => group.title !== "Tiny Treats";
 
 export function getDrinkPrice(item: MenuItem, options: BrewOptions) {
   const basePrice = priceAsNumber(item.price);

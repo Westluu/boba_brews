@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import type { MenuItem } from "../../data/menu";
 import type { BrewOptions, OptionKey } from "../../data/orderOptions";
+import { useModalBehavior } from "../../hooks/useModalBehavior";
 import BrewCustomizer from "./BrewCustomizer";
 
 type BrewCustomizerModalProps = {
@@ -22,20 +22,7 @@ function BrewCustomizerModal({
   onConfirm,
   onClose,
 }: BrewCustomizerModalProps) {
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [onClose]);
+  useModalBehavior(onClose);
 
   return (
     <div
