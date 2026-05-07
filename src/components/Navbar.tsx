@@ -1,4 +1,5 @@
 import type { MouseEventHandler } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { NAV_ITEMS, type NavItem } from "../config/navigation";
 import wizardCat from "../assets/wizard-cat.png";
 import orderSign from "../assets/order-sign.png";
@@ -71,11 +72,13 @@ const NAVBAR_STYLES: Record<NavbarVariant, NavbarStyle> = {
   persistent: {
     header: "fixed inset-x-0 top-0 z-20 w-full",
     nav: "mx-auto flex h-24 max-w-[1400px] items-center justify-between gap-4 px-6 pt-4 sm:px-10",
-    logo: "h-14 w-14 object-contain",
+    logo: "h-20 w-20 object-contain",
     list: "ml-4 flex min-w-0 flex-1 items-center overflow-x-auto gap-8 sm:ml-8 sm:gap-14 lg:gap-20",
     link: "text-2xl sm:text-4xl",
-    order: "group relative shrink-0 focus:outline-none",
-    orderKind: "button",
+    order: "group relative -mt-4 shrink-0 focus:outline-none",
+    orderImage:
+      "h-[15rem] w-auto object-contain transition-transform duration-300 group-hover:rotate-1 group-hover:scale-105 group-focus-visible:rotate-1 group-focus-visible:scale-105",
+    orderKind: "sign",
   },
 };
 
@@ -90,12 +93,21 @@ export function Navbar({
   variant = "hero",
 }: NavbarProps) {
   const styles = NAVBAR_STYLES[variant];
+  const isRouteHref = (href: string) => href.startsWith("/");
+  const orderContent =
+    styles.orderKind === "button" ? (
+      <span className="inline-flex items-center rounded-full border border-[#e5bc8a66] bg-[#160b1ddd] px-5 py-2 font-display text-xl text-cream shadow-[0_0_24px_rgba(110,63,176,0.22)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 group-focus-visible:-translate-y-0.5 group-focus-visible:scale-105">
+        Order
+      </span>
+    ) : (
+      <img src={orderSign} alt="Order" className={styles.orderImage} />
+    );
 
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <a
-          href={homeHref}
+        <Link
+          to={homeHref}
           onClick={onHomeClick}
           aria-label="Boba Brews home"
           className="flex shrink-0 items-center"
@@ -105,53 +117,54 @@ export function Navbar({
             alt="Boba Brews wizard cat logo"
             className={styles.logo}
           />
-        </a>
+        </Link>
 
         <ul className={styles.list}>
           {items.map((item) => {
-            const isActive = item.label === active;
             return (
               <li key={item.label}>
-                <a
-                  href={item.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={[
-                    "relative inline-block py-1 text-cream",
-                    styles.link,
-                    "transition-colors hover:text-magic-light",
-                    "focus:outline-none focus-visible:text-magic-light",
-                    isActive
-                      ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[4px] after:rounded-full after:bg-[#f5e6c5] after:shadow-[0_0_12px_rgba(245,230,197,0.72)]"
-                      : "",
-                  ].join(" ")}
+                <NavLink
+                  to={item.href}
+                  end
+                  className={({ isActive }) =>
+                    [
+                      "relative inline-block py-1 text-cream",
+                      styles.link,
+                      "transition-colors hover:text-magic-light",
+                      "focus:outline-none focus-visible:text-magic-light",
+                      isActive || item.label === active
+                        ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[4px] after:rounded-full after:bg-[#f5e6c5] after:shadow-[0_0_12px_rgba(245,230,197,0.72)]"
+                        : "",
+                    ].join(" ")
+                  }
                 >
                   {item.label}
-                </a>
+                </NavLink>
               </li>
             );
           })}
         </ul>
 
-        {showOrder && (
-          <a
-            href={orderHref}
-            onClick={onOrderClick}
-            aria-label="Order"
-            className={styles.order}
-          >
-            {styles.orderKind === "button" ? (
-              <span className="inline-flex items-center rounded-full border border-[#e5bc8a66] bg-[#160b1ddd] px-5 py-2 font-display text-xl text-cream shadow-[0_0_24px_rgba(110,63,176,0.22)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 group-focus-visible:-translate-y-0.5 group-focus-visible:scale-105">
-                Order
-              </span>
-            ) : (
-              <img
-                src={orderSign}
-                alt="Order"
-                className={styles.orderImage}
-              />
-            )}
-          </a>
-        )}
+        {showOrder &&
+          (isRouteHref(orderHref) ? (
+            <Link
+              to={orderHref}
+              onClick={onOrderClick}
+              aria-label="Order"
+              className={styles.order}
+            >
+              {orderContent}
+            </Link>
+          ) : (
+            <a
+              href={orderHref}
+              onClick={onOrderClick}
+              aria-label="Order"
+              className={styles.order}
+            >
+              {orderContent}
+            </a>
+          ))}
       </nav>
     </header>
   );

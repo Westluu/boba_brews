@@ -1,87 +1,41 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  type MouseEventHandler,
-  useRef,
-} from "react";
+import { useCallback } from "react";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import MenuPage from "./components/MenuPage";
 import Navbar from "./components/Navbar";
-import { useHashScroll } from "./hooks/useHashScroll";
 
-const ACTIVE_NAV_BY_HASH: Record<string, string> = {
-  "#menu": "Menu",
-  "#about": "About",
-  "#magic": "Magic",
-  "#contact": "Contact",
+const ACTIVE_NAV_BY_PATH: Record<string, string> = {
+  "/menu": "Menu",
+  "/about": "About",
+  "/magic": "Magic",
+  "/contact": "Contact",
 };
 
 function App() {
-  const [hasEnteredMenu, setHasEnteredMenu] = useState(
-    () => window.location.hash in ACTIVE_NAV_BY_HASH,
-  );
-  const [activeNav, setActiveNav] = useState<string | null>(
-    () => ACTIVE_NAV_BY_HASH[window.location.hash] ?? null,
-  );
-  const shouldResetToMenuRef = useRef(false);
-  useHashScroll();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const activeNav = ACTIVE_NAV_BY_PATH[location.pathname] ?? null;
 
   const handleMenuReveal = useCallback(() => {
-    shouldResetToMenuRef.current = true;
-    setActiveNav("Menu");
-    setHasEnteredMenu(true);
-  }, []);
-
-  const handleHomeClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
-    (event) => {
-      event.preventDefault();
-      setActiveNav(null);
-      setHasEnteredMenu(false);
-    },
-    [],
-  );
-
-  useLayoutEffect(() => {
-    if (hasEnteredMenu) {
-      if (shouldResetToMenuRef.current) {
-        shouldResetToMenuRef.current = false;
-        window.history.replaceState(null, "", "#menu");
-        window.scrollTo({ top: 0, behavior: "auto" });
-      }
-
-      return;
-    }
-
-    window.history.replaceState(null, "", "#home");
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [hasEnteredMenu]);
-
-  useEffect(() => {
-    const updateActiveNav = () => {
-      setActiveNav(ACTIVE_NAV_BY_HASH[window.location.hash] ?? null);
-    };
-
-    updateActiveNav();
-    window.addEventListener("hashchange", updateActiveNav);
-
-    return () => {
-      window.removeEventListener("hashchange", updateActiveNav);
-    };
-  }, []);
+    navigate("/menu", { replace: true });
+  }, [navigate]);
 
   return (
     <main>
       <Navbar
         active={activeNav}
-        homeHref="#home"
-        onHomeClick={hasEnteredMenu ? handleHomeClick : undefined}
-        showOrder={false}
+        homeHref="/"
+        orderHref="/menu"
         variant="persistent"
       />
-      {!hasEnteredMenu && <LandingPage onMenuReveal={handleMenuReveal} />}
-      <MenuPage />
+      <Routes>
+        <Route path="/" element={<LandingPage onMenuReveal={handleMenuReveal} />} />
+        <Route path="/menu" element={<MenuPage sectionId="menu" />} />
+        <Route path="/about" element={<MenuPage sectionId="about" />} />
+        <Route path="/magic" element={<MenuPage sectionId="magic" />} />
+        <Route path="/contact" element={<MenuPage sectionId="contact" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </main>
   );
 }

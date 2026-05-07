@@ -4,10 +4,10 @@ export type NavItem = {
 };
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: "Menu", href: "#menu" },
-  { label: "About", href: "#about" },
-  { label: "Magic", href: "#magic" },
-  { label: "Contact", href: "#contact" },
+  { label: "Menu", href: "/menu" },
+  { label: "About", href: "/about" },
+  { label: "Magic", href: "/magic" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const MENU_SECTION_IDS = new Set([

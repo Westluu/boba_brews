@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import menuBackground from "../assets/menu/background.png";
 import brewingBoba from "../assets/menu/boba-brewing.png";
 import { MENU_GROUPS, MENU_NOTES, type MenuNoteIcon } from "../data/menu";
@@ -9,7 +10,25 @@ const NOTE_ICONS: Record<MenuNoteIcon, string> = {
   sparkles: "✦",
 };
 
-function MenuPage() {
+type MenuPageProps = {
+  sectionId: "menu" | "about" | "magic" | "contact";
+};
+
+function MenuPage({ sectionId }: MenuPageProps) {
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(sectionId);
+
+      if (target) {
+        target.scrollIntoView({ behavior: "auto", block: "start" });
+      }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [sectionId]);
+
   return (
     <div className="relative min-h-screen bg-black text-cream">
       <div
