@@ -175,7 +175,7 @@ export function Navbar({
                         "transition-colors hover:text-magic-light",
                         "focus:outline-none focus-visible:text-magic-light",
                         isActive || item.label === active
-                          ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[4px] after:rounded-full after:bg-[#f5e6c5] after:shadow-[0_0_12px_rgba(245,230,197,0.72)]"
+                          ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[5px] after:rounded-full after:bg-[#c084fc] after:shadow-[0_0_6px_rgba(192,132,252,0.55)]"
                           : "",
                       ].join(" ")
                     }
@@ -192,7 +192,7 @@ export function Navbar({
                       "transition-colors hover:text-magic-light",
                       "focus:outline-none focus-visible:text-magic-light",
                       item.label === active
-                        ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[4px] after:rounded-full after:bg-[#f5e6c5] after:shadow-[0_0_12px_rgba(245,230,197,0.72)]"
+                        ? "after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[5px] after:rounded-full after:bg-[#c084fc] after:shadow-[0_0_6px_rgba(192,132,252,0.55)]"
                         : "",
                     ].join(" ")}
                   >

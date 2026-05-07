@@ -45,8 +45,9 @@ function MenuPage({ sectionId }: MenuPageProps) {
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.1)), url(${menuBackground})`,
           backgroundPosition: "center top",
-          backgroundRepeat: "repeat-y",
-          backgroundSize: "100% auto",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
         }}
       >
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.18)_32%,rgba(0,0,0,0.08)_64%,rgba(0,0,0,0.55)_100%)]" />
