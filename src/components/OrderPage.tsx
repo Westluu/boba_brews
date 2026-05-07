@@ -7,12 +7,11 @@ import type { OptionKey } from "../data/orderOptions";
 import {
   createDrinkCartInput,
   createTreatCartInput,
-  findGroupForItem,
   getDefaultBrewOptions,
-  isDrinkGroup,
   setBrewOption,
   toggleBrewTopping,
 } from "../domain/order";
+import { findGroupForItem, isDrinkGroup } from "../domain/menu";
 import { useCart } from "../hooks/useCart";
 import { formatCurrency, getDrinkPrice } from "../utils/pricing";
 import OrderCategoryTabs from "./order/OrderCategoryTabs";

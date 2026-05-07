@@ -10,8 +10,7 @@ import { formatCurrency } from "../../utils/pricing";
 import cauldron from "../../assets/cauldron.png";
 
 type BrewCustomizerProps = {
-  selectedItem: MenuItem;
-  selectedIsDrink: boolean;
+  item: MenuItem;
   options: BrewOptions;
   selectedPrice: number;
   onSetOption: (key: OptionKey, value: string) => void;
@@ -20,8 +19,7 @@ type BrewCustomizerProps = {
 };
 
 function BrewCustomizer({
-  selectedItem,
-  selectedIsDrink,
+  item,
   options,
   selectedPrice,
   onSetOption,
@@ -41,9 +39,9 @@ function BrewCustomizer({
 
       <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 xl:grid-cols-[0.85fr_1fr]">
         <div className="flex items-center justify-center">
-          {selectedItem.image ? (
+          {item.image ? (
             <img
-              src={selectedItem.image}
+              src={item.image}
               alt=""
               aria-hidden="true"
               className="h-40 w-40 object-contain drop-shadow-[0_22px_34px_rgba(0,0,0,0.48)] sm:h-[20rem] sm:w-[20rem]"
@@ -57,77 +55,64 @@ function BrewCustomizer({
         </div>
 
         <div className="grid content-start gap-4">
-          {selectedIsDrink ? (
-            <>
-              {(Object.keys(OPTION_GROUPS) as OptionKey[]).map((key) => (
-                <fieldset key={key}>
-                  <legend className="mb-2 flex items-center gap-2 font-display text-xl text-[#f8dfb2] sm:text-2xl">
-                    <span className="text-[#e4a0f1]">{OPTION_LABELS[key].icon}</span>
-                    {OPTION_LABELS[key].label}
-                  </legend>
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                    {OPTION_GROUPS[key].map((value) => {
-                      const isActive = options[key] === value;
+          {(Object.keys(OPTION_GROUPS) as OptionKey[]).map((key) => (
+            <fieldset key={key}>
+              <legend className="mb-2 flex items-center gap-2 font-display text-xl text-[#f8dfb2] sm:text-2xl">
+                <span className="text-[#e4a0f1]">{OPTION_LABELS[key].icon}</span>
+                {OPTION_LABELS[key].label}
+              </legend>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {OPTION_GROUPS[key].map((value) => {
+                  const isActive = options[key] === value;
 
-                      return (
-                        <button
-                          key={value}
-                          type="button"
-                          onClick={() => onSetOption(key, value)}
-                          className={[
-                            "min-h-11 rounded-[0.45rem] border px-2 font-display text-lg leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80 sm:min-h-12 sm:px-3 sm:text-xl",
-                            isActive
-                              ? "border-[#d28dce] bg-[#8d4fafcc] text-[#fff0c8] shadow-[inset_0_0_18px_rgba(255,255,255,0.12)]"
-                              : "border-[#7d5a65] bg-[#030512] text-[#f5e6c5] hover:border-[#d28dce]/75",
-                          ].join(" ")}
-                        >
-                          {value}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </fieldset>
-              ))}
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => onSetOption(key, value)}
+                      className={[
+                        "min-h-11 rounded-[0.45rem] border px-2 font-display text-lg leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80 sm:min-h-12 sm:px-3 sm:text-xl",
+                        isActive
+                          ? "border-[#d28dce] bg-[#8d4fafcc] text-[#fff0c8] shadow-[inset_0_0_18px_rgba(255,255,255,0.12)]"
+                          : "border-[#7d5a65] bg-[#030512] text-[#f5e6c5] hover:border-[#d28dce]/75",
+                      ].join(" ")}
+                    >
+                      {value}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+          ))}
 
-              <fieldset>
-                <legend className="mb-2 flex items-center gap-2 font-display text-xl text-[#f8dfb2] sm:text-2xl">
-                  <span className="text-[#e4a0f1]">♣</span>
-                  Toppings
-                </legend>
-                <div className="grid grid-cols-2 gap-2">
-                  {TOPPINGS.map((topping) => {
-                    const isActive = options.toppings.includes(topping.label);
+          <fieldset>
+            <legend className="mb-2 flex items-center gap-2 font-display text-xl text-[#f8dfb2] sm:text-2xl">
+              <span className="text-[#e4a0f1]">♣</span>
+              Toppings
+            </legend>
+            <div className="grid grid-cols-2 gap-2">
+              {TOPPINGS.map((topping) => {
+                const isActive = options.toppings.includes(topping.label);
 
-                    return (
-                      <button
-                        key={topping.label}
-                        type="button"
-                        onClick={() => onToggleTopping(topping.label)}
-                        className={[
-                          "min-h-14 rounded-[0.45rem] border px-2 font-display text-lg leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80 sm:min-h-16 sm:px-3 sm:text-xl",
-                          isActive
-                            ? "border-[#d28dce] bg-[#8d4fafcc] text-[#fff0c8] shadow-[inset_0_0_18px_rgba(255,255,255,0.12)]"
-                            : "border-[#7d5a65] bg-[#030512] text-[#f5e6c5] hover:border-[#d28dce]/75",
-                        ].join(" ")}
-                      >
-                        <span className="block">+ {topping.label}</span>
-                        <span className="text-base sm:text-lg">+{formatCurrency(topping.price)}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </fieldset>
-            </>
-          ) : (
-            <div className="rounded-[0.9rem] border border-[#9d6d67]/70 bg-[#050716d8] p-5">
-              <p className="font-display text-3xl leading-tight text-[#f8dfb2]">
-                This tiny treat is ready for the cauldron.
-              </p>
-              <p className="mt-3 text-lg leading-7 text-[#dfd5d0]">
-                {selectedItem.details ?? selectedItem.description}
-              </p>
+                return (
+                  <button
+                    key={topping.label}
+                    type="button"
+                    onClick={() => onToggleTopping(topping.label)}
+                    className={[
+                      "min-h-14 rounded-[0.45rem] border px-2 font-display text-lg leading-tight transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80 sm:min-h-16 sm:px-3 sm:text-xl",
+                      isActive
+                        ? "border-[#d28dce] bg-[#8d4fafcc] text-[#fff0c8] shadow-[inset_0_0_18px_rgba(255,255,255,0.12)]"
+                        : "border-[#7d5a65] bg-[#030512] text-[#f5e6c5] hover:border-[#d28dce]/75",
+                    ].join(" ")}
+                  >
+                    <span className="block">+ {topping.label}</span>
+                    <span className="text-base sm:text-lg">+{formatCurrency(topping.price)}</span>
+                  </button>
+                );
+              })}
             </div>
-          )}
+          </fieldset>
         </div>
       </div>
 

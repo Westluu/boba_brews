@@ -2,61 +2,25 @@ import { useState, type CSSProperties, type FormEvent, type ReactNode } from "re
 import contactBg from "../assets/contact/contact-bg.jpg";
 import emailCat from "../assets/contact/email-cat.png";
 import {
+  hasContactErrors,
+  INITIAL_CONTACT_FORM,
+  toContactEmailPayload,
+  validateContactForm,
+  type ContactFieldErrors,
+  type ContactFormFields,
+} from "../domain/contact";
+import {
   CONTACT_EMAIL_RECIPIENT,
   sendContactEmail,
 } from "../services/contactEmail";
 import Button from "./ui/Button";
 import { Input, TextArea } from "./ui/Input";
 
-type FormFields = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
-
-type FieldErrors = Partial<Record<keyof FormFields, string>>;
-
 type SubmitStatus =
   | { kind: "idle" }
   | { kind: "loading" }
   | { kind: "success"; message: string }
   | { kind: "error"; message: string };
-
-const INITIAL_FORM: FormFields = {
-  name: "",
-  email: "",
-  subject: "",
-  message: "",
-};
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function validate(fields: FormFields): FieldErrors {
-  const errors: FieldErrors = {};
-
-  if (!fields.name.trim()) {
-    errors.name = "Please tell us your name.";
-  }
-
-  if (!fields.email.trim()) {
-    errors.email = "We need an email to write back.";
-  } else if (!EMAIL_PATTERN.test(fields.email.trim())) {
-    errors.email = "That email looks a little off.";
-  }
-
-  if (!fields.subject.trim()) {
-    errors.subject = "A subject helps us sort the scrolls.";
-  }
-
-  if (!fields.message.trim()) {
-    errors.message = "Tell us a little about your message.";
-  } else if (fields.message.trim().length < 10) {
-    errors.message = "Just a few more words, please.";
-  }
-
-  return errors;
-}
 
 type IconCircleProps = { children: ReactNode; ariaLabel?: string };
 
@@ -167,11 +131,14 @@ function SocialBadge({ label, symbol }: SocialBadgeProps) {
 }
 
 function ContactPage() {
-  const [fields, setFields] = useState<FormFields>(INITIAL_FORM);
-  const [errors, setErrors] = useState<FieldErrors>({});
+  const [fields, setFields] = useState<ContactFormFields>(INITIAL_CONTACT_FORM);
+  const [errors, setErrors] = useState<ContactFieldErrors>({});
   const [status, setStatus] = useState<SubmitStatus>({ kind: "idle" });
 
-  const updateField = <K extends keyof FormFields>(key: K, value: FormFields[K]) => {
+  const updateField = <K extends keyof ContactFormFields>(
+    key: K,
+    value: ContactFormFields[K],
+  ) => {
     setFields((prev) => ({ ...prev, [key]: value }));
     if (errors[key]) {
       setErrors((prev) => ({ ...prev, [key]: undefined }));
@@ -186,8 +153,8 @@ function ContactPage() {
 
     if (status.kind === "loading") return;
 
-    const nextErrors = validate(fields);
-    if (Object.keys(nextErrors).length > 0) {
+    const nextErrors = validateContactForm(fields);
+    if (hasContactErrors(nextErrors)) {
       setErrors(nextErrors);
       setStatus({
         kind: "error",
@@ -200,13 +167,8 @@ function ContactPage() {
     setStatus({ kind: "loading" });
 
     try {
-      await sendContactEmail({
-        name: fields.name.trim(),
-        email: fields.email.trim(),
-        subject: fields.subject.trim(),
-        message: fields.message.trim(),
-      });
-      setFields(INITIAL_FORM);
+      await sendContactEmail(toContactEmailPayload(fields));
+      setFields(INITIAL_CONTACT_FORM);
       setStatus({
         kind: "success",
         message: "Message sent! Boba will write back from the inbox soon.",
@@ -223,7 +185,6 @@ function ContactPage() {
 
   return (
     <div className="relative min-h-screen bg-[#0b0717] text-cream">
-
       <div
         className="contact-page-bg relative min-h-screen overflow-hidden px-3 pb-6 pt-24 sm:px-8 sm:pb-8"
         style={{
@@ -399,7 +360,7 @@ function ContactPage() {
                 type="submit"
                 variant="primary"
                 loading={isLoading}
-                  className="mt-1 w-full"
+                className="mt-1 w-full"
               >
                 {isLoading ? "Sending…" : (
                   <>
@@ -423,7 +384,6 @@ function ContactPage() {
             </form>
           </article>
         </section>
-
       </div>
     </div>
   );

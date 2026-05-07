@@ -1,6 +1,16 @@
 import type { MenuItem } from "../data/menu";
 import { TOPPINGS, type BrewOptions } from "../data/orderOptions";
 
+const SIZE_PRICE_ADJUSTMENTS: Record<string, number> = {
+  Small: -0.25,
+  Regular: 0,
+  Large: 0.75,
+};
+
+const TOPPING_PRICE_BY_LABEL = new Map(
+  TOPPINGS.map((topping) => [topping.label, topping.price]),
+);
+
 export const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-US", {
     currency: "USD",
@@ -12,12 +22,9 @@ export const priceAsNumber = (price: string) =>
 
 export function getDrinkPrice(item: MenuItem, options: BrewOptions) {
   const basePrice = priceAsNumber(item.price);
-  const sizePrice =
-    options.size === "Large" ? 0.75 : options.size === "Small" ? -0.25 : 0;
+  const sizePrice = SIZE_PRICE_ADJUSTMENTS[options.size] ?? 0;
   const toppingPrice = options.toppings.reduce((total, topping) => {
-    return (
-      total + (TOPPINGS.find((entry) => entry.label === topping)?.price ?? 0)
-    );
+    return total + (TOPPING_PRICE_BY_LABEL.get(topping) ?? 0);
   }, 0);
 
   return Math.max(0, basePrice + sizePrice + toppingPrice);
