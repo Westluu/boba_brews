@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { Link } from "react-router-dom";
 import cauldron from "../assets/cauldron.png";
 import mobileHeroStill from "../assets/mobile-hero-still.jpg";
@@ -40,6 +46,19 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   );
   // Cup is hidden once the brewing video takes over (matches BREW_START in SpellTrail).
   const isBrewing = transitionProgress >= 0.76;
+  const syncIntroPlaybackRate = useCallback(() => {
+    const video = introVideoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    video.defaultPlaybackRate = INTRO_PLAYBACK_RATE;
+
+    if (video.playbackRate !== INTRO_PLAYBACK_RATE) {
+      video.playbackRate = INTRO_PLAYBACK_RATE;
+    }
+  }, []);
 
   useEffect(() => {
     if (isMobile || hasFinishedIntro) {
@@ -57,6 +76,12 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
       document.body.style.overflow = bodyOverflow;
     };
   }, [hasFinishedIntro, isMobile]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      syncIntroPlaybackRate();
+    }
+  }, [isMobile, syncIntroPlaybackRate]);
 
   useEffect(() => {
     if (
@@ -147,13 +172,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
           muted
           playsInline
           preload="auto"
-          onLoadedMetadata={() => {
-            const video = introVideoRef.current;
-
-            if (video) {
-              video.playbackRate = INTRO_PLAYBACK_RATE;
-            }
-          }}
+          onCanPlay={syncIntroPlaybackRate}
           onEnded={() => {
             const video = introVideoRef.current;
 
@@ -165,6 +184,9 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
             window.scrollTo({ top: 0, behavior: "auto" });
             setHasFinishedIntro(true);
           }}
+          onLoadedMetadata={syncIntroPlaybackRate}
+          onPlay={syncIntroPlaybackRate}
+          onRateChange={syncIntroPlaybackRate}
           className="hero-intro-video absolute inset-0 h-full w-full object-cover"
         >
           <source src={startVideo} type="video/mp4" />
