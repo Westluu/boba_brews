@@ -1,4 +1,3 @@
-export type MenuArtType = "cup" | "plate" | "moon-cookie" | "pudding" | "paw";
 export type MenuCharm =
   | "berries"
   | "lavender"
@@ -15,9 +14,10 @@ export type MenuItem = {
   name: string;
   description: string;
   price: string;
-  art: MenuArtType;
-  accent: string;
   charm?: MenuCharm;
+  details?: string;
+  ingredients?: string[];
+  caffeine?: string;
 };
 
 export type MenuGroup = {
@@ -39,34 +39,47 @@ export const MENU_GROUPS: MenuGroup[] = [
       {
         name: "Moon Milk Tea",
         description: "Creamy, dreamy, and lightly sweet.",
+        details:
+          "Our house black tea steeped slow and stirred with cold milk and a whisper of vanilla. Made for late evenings and longer conversations.",
+        ingredients: ["Black tea", "Milk", "Vanilla syrup", "Boba pearls"],
         price: "$5.75",
-        art: "cup",
-        accent: "#f4d39b",
         charm: "moon",
+        caffeine: "Medium",
       },
       {
         name: "Starlight Thai Tea",
         description: "Bold Thai tea with a silky finish.",
+        details:
+          "Spiced Thai tea brewed dark, then layered with sweetened condensed milk so each sip glows from amber to gold.",
+        ingredients: [
+          "Thai tea blend",
+          "Condensed milk",
+          "Cane sugar",
+          "Boba pearls",
+        ],
         price: "$5.50",
-        art: "cup",
-        accent: "#f2a13e",
         charm: "star",
+        caffeine: "Medium",
       },
       {
         name: "Lavender Hojicha",
         description: "Roasted hojicha with floral lavender.",
+        details:
+          "Toasty roasted hojicha softened with steamed milk and a few drops of lavender syrup. Earthy, mellow, gently floral.",
+        ingredients: ["Hojicha", "Milk", "Lavender syrup", "Honey"],
         price: "$5.75",
-        art: "cup",
-        accent: "#c7b4dc",
         charm: "lavender",
+        caffeine: "Low",
       },
       {
         name: "Witch's Matcha",
         description: "Smooth matcha with a touch of magic.",
+        details:
+          "Ceremonial-grade matcha whisked fresh, balanced with creamy oat milk and a touch of agave for a smooth finish.",
+        ingredients: ["Ceremonial matcha", "Oat milk", "Agave"],
         price: "$5.75",
-        art: "cup",
-        accent: "#c8d38c",
         charm: "leaf",
+        caffeine: "Medium",
       },
     ],
   },
@@ -77,30 +90,38 @@ export const MENU_GROUPS: MenuGroup[] = [
       {
         name: "Classic Milk Tea",
         description: "Timeless and comforting.",
+        details:
+          "The one we'd brew on any night. House black tea, fresh milk, brown sugar to taste — nothing more, nothing less.",
+        ingredients: ["Black tea", "Milk", "Brown sugar", "Boba pearls"],
         price: "$5.25",
-        art: "cup",
-        accent: "#f4d7ad",
+        caffeine: "Medium",
       },
       {
         name: "Brown Sugar Boba",
         description: "Caramelized sweetness in every sip.",
+        details:
+          "Boba pearls cooked in dark brown sugar syrup until they ribbon down the cup, finished with cold milk for a swirling tiger print.",
+        ingredients: ["Brown sugar boba", "Milk", "Black tea"],
         price: "$5.75",
-        art: "cup",
-        accent: "#d98237",
+        caffeine: "Low",
       },
       {
         name: "Taro Milk Tea",
         description: "Creamy taro, perfectly smooth.",
+        details:
+          "Real steamed taro blended into a silky purple cream and shaken with our house tea for a cozy nutty-vanilla flavor.",
+        ingredients: ["Taro", "Black tea", "Milk", "Cane sugar"],
         price: "$5.75",
-        art: "cup",
-        accent: "#d9c6f0",
+        caffeine: "Medium",
       },
       {
         name: "Vanilla Cloud",
         description: "Light vanilla with a cloud-like finish.",
+        details:
+          "Lightly sweetened oolong topped with a soft vanilla cream cap. Sip through the foam for a layered, fluffy finish.",
+        ingredients: ["Oolong tea", "Vanilla cream cap", "Cane sugar"],
         price: "$5.50",
-        art: "cup",
-        accent: "#f6dfbf",
+        caffeine: "Medium",
       },
     ],
   },
@@ -111,34 +132,48 @@ export const MENU_GROUPS: MenuGroup[] = [
       {
         name: "Berry Nebula Tea",
         description: "Mixed berries with a hint of cosmos.",
+        details:
+          "Strawberry, blueberry, and raspberry shaken into iced green tea — bright, tart, and a little fizzy on the tongue.",
+        ingredients: [
+          "Green tea",
+          "Strawberry",
+          "Blueberry",
+          "Raspberry",
+          "Lemon",
+        ],
         price: "$5.75",
-        art: "cup",
-        accent: "#7a52c6",
         charm: "berries",
+        caffeine: "Low",
       },
       {
         name: "Mango Meteor",
         description: "Bright mango with a burst of stardust.",
+        details:
+          "Sun-ripened mango puree poured over jasmine tea and crackling popping pearls that burst like little comets.",
+        ingredients: ["Jasmine tea", "Mango puree", "Popping pearls"],
         price: "$5.75",
-        art: "cup",
-        accent: "#ffc64f",
         charm: "mango",
+        caffeine: "Low",
       },
       {
         name: "Lychee Luna",
         description: "Sweet lychee kissed by moonlight.",
+        details:
+          "Floral lychee shaken with iced white tea and a squeeze of lime. Light, perfumed, and barely sweet.",
+        ingredients: ["White tea", "Lychee", "Lime"],
         price: "$5.75",
-        art: "cup",
-        accent: "#ffe3d8",
         charm: "lychee",
+        caffeine: "Low",
       },
       {
         name: "Peach Comet",
         description: "Juicy peach with a comet's tail.",
+        details:
+          "Yellow peach blended with oolong and a streak of passionfruit so each sip lands soft, then sparkles.",
+        ingredients: ["Oolong tea", "Peach", "Passionfruit"],
         price: "$5.50",
-        art: "cup",
-        accent: "#f58f86",
         charm: "peach",
+        caffeine: "Low",
       },
     ],
   },
@@ -149,30 +184,39 @@ export const MENU_GROUPS: MenuGroup[] = [
       {
         name: "Mochi Stars",
         description: "Chewy mochi in cute star shapes.",
+        details:
+          "Hand-shaped mochi with a sweet red bean filling, dusted with star anise sugar. Three to a plate.",
+        ingredients: ["Glutinous rice flour", "Red bean", "Star anise sugar"],
         price: "$3.25",
-        art: "plate",
-        accent: "#f7b0b8",
       },
       {
         name: "Moon Cookies",
         description: "Buttery cookies with a hint of vanilla.",
+        details:
+          "Crescent-shaped shortbread baked golden, with a soft vanilla center and a sugar dusting like fresh snow.",
+        ingredients: ["Butter", "Flour", "Vanilla", "Powdered sugar"],
         price: "$2.75",
-        art: "moon-cookie",
-        accent: "#f5b65e",
       },
       {
         name: "Galaxy Pudding",
         description: "Silky panna cotta with butterfly pea swirl.",
+        details:
+          "Vanilla panna cotta swirled with butterfly pea so the cup turns indigo and violet. Topped with a glittering edible star.",
+        ingredients: [
+          "Cream",
+          "Vanilla",
+          "Butterfly pea flower",
+          "Edible silver",
+        ],
         price: "$3.75",
-        art: "pudding",
-        accent: "#8d64b3",
       },
       {
         name: "Cat's Paw Bite",
         description: "Soft chocolate cake with a fudge center.",
+        details:
+          "Warm chocolate cake with a molten fudge core, shaped into tiny paws. Boba's favorite, of course.",
+        ingredients: ["Cocoa", "Butter", "Dark chocolate ganache", "Sea salt"],
         price: "$3.25",
-        art: "paw",
-        accent: "#9a5f43",
       },
     ],
   },
