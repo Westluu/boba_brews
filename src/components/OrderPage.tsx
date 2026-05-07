@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import cauldron from "../assets/cauldron.png";
-import brewingBoba from "../assets/menu/boba-brewing.png";
+import orderBrew from "../assets/order-brew.png";
+import wizardCat from "../assets/wizard-cat.png";
 import menuBackground from "../assets/menu/background.png";
 import { MENU_GROUPS, type MenuGroup, type MenuItem } from "../data/menu";
 import { CATEGORY_ICONS, ITEM_CHARMS } from "./menu/menuSymbols";
@@ -183,7 +184,7 @@ function OrderPage() {
   return (
     <div className="relative min-h-screen bg-black text-cream">
       <div
-        className="relative min-h-screen overflow-hidden px-4 pb-10 pt-28 sm:px-7"
+        className="relative min-h-screen overflow-hidden px-4 pb-8 pt-20 sm:px-7"
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.12)), url(${menuBackground})`,
           backgroundPosition: "center top",
@@ -193,25 +194,25 @@ function OrderPage() {
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_8%,rgba(154,96,213,0.22),transparent_24rem),linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.1)_50%,rgba(0,0,0,0.55)_100%)]" />
 
-        <section className="relative mx-auto min-h-[16rem] max-w-[130rem]">
-          <div className="relative z-10 max-w-[43rem] pt-10 text-center sm:text-left lg:pt-14">
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:justify-start">
-              <h1 className="font-display text-7xl leading-none text-[#ffd8a0] [text-shadow:0_0_16px_rgba(255,216,160,0.2),0_12px_36px_rgba(0,0,0,0.65)] sm:text-8xl lg:text-9xl">
+        <section className="relative mx-auto min-h-[10rem] max-w-[130rem]">
+          <div className="relative z-10 max-w-[55rem] pt-2 text-center sm:text-left lg:pt-4">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+              <h1 className="font-display text-5xl leading-none text-[#ffd8a0] [text-shadow:0_0_16px_rgba(255,216,160,0.2),0_12px_36px_rgba(0,0,0,0.65)] sm:text-6xl lg:text-7xl">
                 Order Your Brew
               </h1>
-              <span className="font-display text-6xl text-[#ffd8a0] sm:text-7xl">
+              <span className="font-display text-4xl text-[#ffd8a0] sm:text-5xl">
                 ☾
               </span>
             </div>
-            <p className="mt-2 font-display text-3xl leading-tight text-[#e4a0f1] sm:text-4xl">
+            <p className="mt-1 font-display text-xl leading-tight text-[#e4a0f1] sm:text-2xl">
               Choose your potion, stir in toppings, and send it to the counter.
             </p>
           </div>
 
           <img
-            src={brewingBoba}
-            alt="Boba the cat stirring a magical cauldron"
-            className="pointer-events-none absolute right-[15rem] top-[-5.8rem] z-0 hidden w-[43rem] max-w-[48vw] object-contain drop-shadow-[0_26px_48px_rgba(0,0,0,0.58)] lg:block 2xl:right-[20rem]"
+            src={orderBrew}
+            alt="A wizard cat stirring a starlit cauldron beside today's orders scroll"
+            className="pointer-events-none absolute right-[2rem] top-[-2rem] z-0 hidden w-[42rem] max-w-[40vw] object-contain drop-shadow-[0_26px_48px_rgba(0,0,0,0.58)] lg:block 2xl:right-[6rem]"
             draggable="false"
           />
         </section>
@@ -244,9 +245,9 @@ function OrderPage() {
           </div>
         </section>
 
-        <section className="relative mx-auto grid max-w-[130rem] gap-6 lg:grid-cols-[1.05fr_1.05fr_0.95fr]">
-          <div className="min-h-[44rem] rounded-b-[1rem] border border-t-0 border-[#9d6d67] bg-[#07091ee8] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.46),inset_0_0_28px_rgba(113,74,150,0.13)]">
-            <div className="grid gap-4">
+        <section className="relative mx-auto grid max-w-[130rem] gap-4 lg:grid-cols-[1.05fr_1.05fr_0.95fr]">
+          <div className="rounded-b-[1rem] border border-t-0 border-[#9d6d67] bg-[#07091ee8] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.46),inset_0_0_28px_rgba(113,74,150,0.13)]">
+            <div className="grid gap-3">
               {activeGroup.items.map((item) => {
                 const isSelected = item.name === selectedItem.name;
 
@@ -544,7 +545,7 @@ function OrderPage() {
 
             <div className="mt-5 flex items-center gap-4 rounded-[0.9rem] border border-[#9d6d67]/70 bg-[#080819d8] px-5 py-4">
               <img
-                src={brewingBoba}
+                src={wizardCat}
                 alt=""
                 aria-hidden="true"
                 className="h-24 w-24 shrink-0 object-contain"

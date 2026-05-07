@@ -3,14 +3,13 @@ import cauldron from "../assets/cauldron.png";
 import BobaCup from "./BobaCup";
 import HeroTitle from "./HeroTitle";
 import SpellTrail from "./SpellTrail";
-import { getBobaCupLayout } from "./bobaCupLayout";
 import { useElementSize } from "../hooks/useElementSize";
 import { useScrollProgress } from "../hooks/useScrollProgress";
 
 import startVideo from "../../assets/start.mp4?url";
 
 const INTRO_PLAYBACK_RATE = 3;
-const MENU_REVEAL_PROGRESS = 0.84;
+const MENU_REVEAL_PROGRESS = 0.97;
 const MENU_REVEAL_DELAY_MS = 260;
 const clamp = (value: number) => Math.min(Math.max(value, 0), 1);
 const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
@@ -21,7 +20,6 @@ type LandingPageProps = {
 
 function LandingPage({ onMenuReveal }: LandingPageProps) {
   const [hasFinishedIntro, setHasFinishedIntro] = useState(false);
-  const [isMenuRevealActive, setIsMenuRevealActive] = useState(false);
   const hasTriggeredMenuRevealRef = useRef(false);
   const menuRevealTimeoutRef = useRef<number | null>(null);
   const introVideoRef = useRef<HTMLVideoElement>(null);
@@ -30,16 +28,8 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   const spellProgress = useScrollProgress(scrollStageRef);
   const transitionProgress = hasFinishedIntro ? spellProgress : 0;
   const cauldronRise = easeOutCubic(clamp((transitionProgress - 0.02) / 0.38));
-  const explosionProgress = easeOutCubic(
-    clamp((transitionProgress - 0.82) / 0.16),
-  );
-  const flashProgress = isMenuRevealActive ? 1 : explosionProgress;
-  const isExploding = isMenuRevealActive || explosionProgress > 0.08;
-  const cupLayout = getBobaCupLayout(
-    heroSize.height,
-    heroSize.width,
-    transitionProgress,
-  );
+  // Cup is hidden once the brewing video takes over (matches BREW_START in SpellTrail).
+  const isBrewing = transitionProgress >= 0.76;
 
   useEffect(() => {
     if (hasFinishedIntro) {
@@ -68,7 +58,6 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
     }
 
     hasTriggeredMenuRevealRef.current = true;
-    setIsMenuRevealActive(true);
 
     menuRevealTimeoutRef.current = window.setTimeout(() => {
       onMenuReveal();
@@ -86,15 +75,13 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   return (
     <div
       ref={scrollStageRef}
-      className="relative h-[210svh] bg-black text-cream"
+      className="relative h-[420svh] bg-black text-cream"
     >
       <section
         ref={heroRef}
         id="home"
         aria-label="Boba Brews animated introduction"
-        className={`sticky top-0 h-screen min-h-screen w-full overflow-hidden bg-black ${
-          isExploding ? "spell-stage-shake" : ""
-        }`}
+        className="sticky top-0 h-screen min-h-screen w-full overflow-hidden bg-black"
       >
         <video
           ref={introVideoRef}
@@ -145,10 +132,6 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
         )}
 
         <SpellTrail
-          cauldronRise={cauldronRise}
-          containerHeight={heroSize.height}
-          containerWidth={heroSize.width}
-          cupLayout={cupLayout}
           progress={transitionProgress}
           visible={hasFinishedIntro}
         />
@@ -157,7 +140,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
           containerHeight={heroSize.height}
           containerWidth={heroSize.width}
           spellProgress={transitionProgress}
-          visible={hasFinishedIntro}
+          visible={hasFinishedIntro && !isBrewing}
         />
 
         {hasFinishedIntro && transitionProgress < 0.58 && (
@@ -192,19 +175,6 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
           </div>
         )}
 
-        <div
-          aria-hidden="true"
-          className={`spell-flash ${isExploding ? "spell-flash-active" : ""}`}
-          style={
-            {
-              "--spell-flash-opacity": flashProgress.toString(),
-              "--spell-flash-scale": (
-                0.18 +
-                flashProgress * 1.35
-              ).toString(),
-            } as CSSProperties
-          }
-        />
       </section>
     </div>
   );
