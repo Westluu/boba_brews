@@ -57,54 +57,6 @@ body,
   }
 }
 
-@keyframes spell-stage-shake {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  12% {
-    transform: translate3d(-0.55rem, 0.25rem, 0);
-  }
-
-  24% {
-    transform: translate3d(0.45rem, -0.35rem, 0);
-  }
-
-  36% {
-    transform: translate3d(-0.35rem, -0.15rem, 0);
-  }
-
-  48% {
-    transform: translate3d(0.5rem, 0.28rem, 0);
-  }
-
-  62% {
-    transform: translate3d(-0.28rem, 0.18rem, 0);
-  }
-
-  76% {
-    transform: translate3d(0.22rem, -0.16rem, 0);
-  }
-}
-
-@keyframes spell-flash-pulse {
-  0%,
-  100% {
-    filter: brightness(1);
-  }
-
-  18%,
-  54% {
-    filter: brightness(1.85);
-  }
-
-  34%,
-  72% {
-    filter: brightness(1.18);
-  }
-}
-
 @keyframes scroll-brew-cue-drift {
   0%,
   100% {
@@ -137,6 +89,39 @@ body,
   animation:
     hero-title-pop 780ms cubic-bezier(0.22, 1, 0.36, 1) both,
     hero-title-bounce 2.4s ease-in-out 780ms infinite;
+}
+
+.hero-intro-video {
+  object-position: 72% center;
+}
+
+.hero-title-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: minmax(0, 72vw) 1fr;
+  align-items: start;
+  padding: 5rem 2.25rem 0;
+  pointer-events: none;
+}
+
+.hero-title-lockup {
+  max-width: 100%;
+  margin-left: clamp(2.5rem, 5vw, 6rem);
+}
+
+.hero-title-heading {
+  font-size: 4.5rem;
+  line-height: 0.86;
+  letter-spacing: 0;
+}
+
+.hero-title-subtitle {
+  max-width: 19rem;
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  letter-spacing: 0;
 }
 
 .boba-cup {
@@ -180,10 +165,6 @@ body,
     drop-shadow(0 0 var(--cauldron-glow, 0) rgba(0, 0, 0, 0.28));
   transform-origin: center bottom;
   will-change: opacity, transform, filter;
-}
-
-.spell-stage-shake {
-  animation: spell-stage-shake 150ms steps(2, end) infinite;
 }
 
 .scroll-brew-cue {
@@ -285,35 +266,110 @@ body,
     drop-shadow(0 0 1rem rgba(152, 98, 226, 0.72));
 }
 
-.spell-flash {
+.brew-menu-transition {
   position: absolute;
   inset: 0;
   z-index: 30;
   pointer-events: none;
-  opacity: var(--spell-flash-opacity, 0);
+  opacity: var(--brew-transition-opacity, 0);
   background:
     radial-gradient(
       circle at 50% 48%,
-      rgba(255, 255, 246, 1) 0%,
-      rgba(255, 239, 158, 0.96) 18%,
-      rgba(235, 168, 92, 0.78) 34%,
-      rgba(112, 73, 190, 0.42) 54%,
-      rgba(255, 255, 255, 0) 76%
+      rgba(68, 35, 112, 0.38) 0%,
+      rgba(23, 12, 41, 0.72) 46%,
+      rgba(5, 4, 12, 0.94) 76%
     ),
     radial-gradient(
-      circle at 50% 50%,
-      rgba(255, 255, 255, 0.92) 0%,
-      rgba(255, 244, 184, 0.78) 36%,
-      rgba(255, 255, 255, 0.96) 100%
+      circle at 50% 86%,
+      rgba(218, 146, 111, 0.18) 0%,
+      rgba(11, 7, 23, 0.72) 48%,
+      #05040c 100%
     );
-  mix-blend-mode: screen;
-  transform: scale(var(--spell-flash-scale, 0.18));
+  transform: scale(var(--brew-transition-scale, 0.96));
   transform-origin: center;
   will-change: opacity, transform;
 }
 
-.spell-flash-active {
-  animation: spell-flash-pulse 230ms steps(2, end) infinite;
+@media (min-width: 640px) {
+  .hero-title-layer {
+    grid-template-columns: minmax(0, 34rem) 1fr;
+    padding-top: 9rem;
+    padding-inline: 4.5rem;
+  }
+
+  .hero-title-heading {
+    font-size: 6.5rem;
+  }
+
+  .hero-title-subtitle {
+    max-width: 23rem;
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-intro-video {
+    object-position: 76% center;
+  }
+
+  .hero-title-layer {
+    grid-template-columns: minmax(0, 39rem) 1fr;
+    padding-top: 10rem;
+    padding-inline: 7.5rem;
+  }
+
+  .hero-title-heading {
+    font-size: 8rem;
+  }
+
+  .hero-title-subtitle {
+    max-width: 24rem;
+    font-size: 2.4rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero-title-layer {
+    grid-template-columns: minmax(0, 42rem) 1fr;
+  }
+
+  .hero-title-heading {
+    font-size: 9rem;
+  }
+}
+
+@media (max-height: 680px) {
+  .hero-title-layer {
+    padding-top: 6.25rem;
+  }
+
+  .hero-title-heading {
+    font-size: 4.7rem;
+  }
+
+  .hero-title-subtitle {
+    font-size: 1.55rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-intro-video {
+    object-position: 68% center;
+  }
+
+  .hero-title-layer {
+    grid-template-columns: minmax(0, 82vw) 1fr;
+    padding-top: 7.25rem;
+    padding-inline: 1.75rem;
+  }
+
+  .hero-title-lockup {
+    margin-left: 0.75rem;
+  }
+
+  .hero-title-heading {
+    font-size: 4rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -325,8 +381,6 @@ body,
     animation: none;
   }
 
-  .spell-stage-shake,
-  .spell-flash-active,
   .scroll-brew-cue,
   .scroll-brew-cue-icon span {
     animation: none;

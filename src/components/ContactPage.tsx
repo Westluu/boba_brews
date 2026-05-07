@@ -1,6 +1,10 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import contactBg from "../assets/contact/contact-bg.png";
 import emailCat from "../assets/contact/email-cat.png";
+import {
+  CONTACT_EMAIL_RECIPIENT,
+  sendContactEmail,
+} from "../services/contactEmail";
 import Button from "./ui/Button";
 import { Input, TextArea } from "./ui/Input";
 
@@ -196,16 +200,21 @@ function ContactPage() {
     setStatus({ kind: "loading" });
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 900));
+      await sendContactEmail({
+        name: fields.name.trim(),
+        email: fields.email.trim(),
+        subject: fields.subject.trim(),
+        message: fields.message.trim(),
+      });
       setFields(INITIAL_FORM);
       setStatus({
         kind: "success",
-        message: "Message sent! We'll write back as soon as the cauldron cools.",
+        message: "Message sent! Boba will write back from the inbox soon.",
       });
     } catch {
       setStatus({
         kind: "error",
-        message: "Something fizzled. Please try again in a moment.",
+        message: `Something fizzled. Please email ${CONTACT_EMAIL_RECIPIENT} directly.`,
       });
     }
   };
@@ -280,8 +289,7 @@ function ContactPage() {
                 <div>
                   <p className="font-display text-3xl text-[#d986e8]">Email</p>
                   <p className="mt-1 font-display text-2xl leading-8 text-[#f8dfb2]">
-                    hello@bobasbrews.com <br />
-                    west1luu@gmail.com
+                    hello@bobasbrews.com
                   </p>
                 </div>
               </li>

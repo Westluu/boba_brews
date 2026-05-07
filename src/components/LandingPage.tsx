@@ -28,6 +28,9 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   const spellProgress = useScrollProgress(scrollStageRef);
   const transitionProgress = hasFinishedIntro ? spellProgress : 0;
   const cauldronRise = easeOutCubic(clamp((transitionProgress - 0.02) / 0.38));
+  const menuTransitionProgress = easeOutCubic(
+    clamp((transitionProgress - 0.84) / 0.16),
+  );
   // Cup is hidden once the brewing video takes over (matches BREW_START in SpellTrail).
   const isBrewing = transitionProgress >= 0.76;
 
@@ -107,7 +110,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
             window.scrollTo({ top: 0, behavior: "auto" });
             setHasFinishedIntro(true);
           }}
-          className="absolute inset-0 h-full w-full object-cover object-right"
+          className="hero-intro-video absolute inset-0 h-full w-full object-cover"
         >
           <source src={startVideo} type="video/mp4" />
         </video>
@@ -135,6 +138,22 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
           progress={transitionProgress}
           visible={hasFinishedIntro}
         />
+
+        {hasFinishedIntro && (
+          <div
+            aria-hidden="true"
+            className="brew-menu-transition"
+            style={
+              {
+                "--brew-transition-opacity": menuTransitionProgress.toString(),
+                "--brew-transition-scale": (
+                  0.96 +
+                  menuTransitionProgress * 0.04
+                ).toString(),
+              } as CSSProperties
+            }
+          />
+        )}
 
         <BobaCup
           containerHeight={heroSize.height}
