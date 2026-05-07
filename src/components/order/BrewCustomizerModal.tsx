@@ -28,18 +28,18 @@ function BrewCustomizerModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-2 backdrop-blur-sm sm:p-4"
       onClick={onClose}
     >
       <div
-        className="relative max-h-[92vh] w-full max-w-[60rem] overflow-y-auto"
+        className="relative max-h-[calc(100svh-1rem)] w-full max-w-[60rem] overflow-y-auto sm:max-h-[92vh]"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close customizer"
-          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-[#9d6d67] bg-[#7d5a65]/80 font-display text-3xl leading-none text-[#ffd8a0] transition hover:bg-[#9354b8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80"
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-[#9d6d67] bg-[#7d5a65]/80 font-display text-2xl leading-none text-[#ffd8a0] transition hover:bg-[#9354b8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80 sm:right-4 sm:top-4 sm:h-10 sm:w-10 sm:text-3xl"
         >
           ×
         </button>

@@ -311,6 +311,21 @@ body,
   background-attachment: scroll;
 }
 
+.contact-page-bg {
+  background-image: var(--contact-background-image);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+}
+
+.order-page-bg {
+  background-image: var(--order-background-image);
+  background-position: center top;
+  background-repeat: repeat-y;
+  background-size: auto 100%;
+}
+
 @media (min-width: 640px) {
   .hero-title-layer {
     grid-template-columns: minmax(0, 34rem) 1fr;
@@ -330,6 +345,10 @@ body,
 
 @media (min-width: 768px) {
   .menu-page-bg {
+    background-attachment: fixed;
+  }
+
+  .contact-page-bg {
     background-attachment: fixed;
   }
 }

@@ -29,7 +29,7 @@ type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
   SharedFieldProps;
 
 const FIELD_BASE =
-  "w-full rounded-[1rem] border border-[#9d6d67] bg-[#0b0717cc] px-5 py-4 font-display text-2xl text-cream placeholder:text-[#7d6c8d] shadow-[inset_0_0_18px_rgba(110,63,176,0.18)] focus:outline-none focus:border-[#c084fc] focus:ring-2 focus:ring-[#c084fc66] transition-colors";
+  "w-full rounded-[1rem] border border-[#9d6d67] bg-[#0b0717cc] px-4 py-3 font-display text-xl text-cream placeholder:text-[#7d6c8d] shadow-[inset_0_0_18px_rgba(110,63,176,0.18)] transition-colors focus:outline-none focus:border-[#c084fc] focus:ring-2 focus:ring-[#c084fc66] sm:px-5 sm:py-4 sm:text-2xl";
 
 const ERROR_FIELD = "border-[#e07a8f] focus:border-[#e07a8f] focus:ring-[#e07a8f55]";
 
@@ -48,7 +48,7 @@ function FieldLabel({
     <label
       htmlFor={htmlFor}
       className={[
-        "pointer-events-none absolute left-5 top-2 font-display text-base text-[#d986e8]",
+        "pointer-events-none absolute left-4 top-2 font-display text-sm text-[#d986e8] sm:left-5 sm:text-base",
         className ?? "",
       ].join(" ")}
     >
@@ -96,7 +96,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       {error && (
         <p
           id={errorId}
-          className="mt-2 font-display text-lg text-[#f4a4b3]"
+          className="mt-2 font-display text-base text-[#f4a4b3] sm:text-lg"
           role="alert"
         >
           {error}
@@ -136,7 +136,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {error && (
           <p
             id={errorId}
-            className="mt-2 font-display text-lg text-[#f4a4b3]"
+            className="mt-2 font-display text-base text-[#f4a4b3] sm:text-lg"
             role="alert"
           >
             {error}
