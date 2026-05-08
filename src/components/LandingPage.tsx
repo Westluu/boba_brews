@@ -21,6 +21,7 @@ import startVideo from "../../assets/start-optimized.mp4?url";
 const INTRO_PLAYBACK_RATE = 3;
 const MENU_REVEAL_PROGRESS = 0.97;
 const MENU_REVEAL_DELAY_MS = 260;
+const SCROLL_PROGRESS_SMOOTHING = 0.12;
 const clamp = (value: number) => Math.min(Math.max(value, 0), 1);
 const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
 
@@ -38,13 +39,14 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   const { ref: mobileTitleRef, size: mobileTitleSize } =
     useElementSize<HTMLHeadingElement>();
   const isMobile = useMediaQuery("(max-width: 767px)");
-  const spellProgress = useScrollProgress(scrollStageRef);
+  const spellProgress = useScrollProgress(scrollStageRef, {
+    smoothing: SCROLL_PROGRESS_SMOOTHING,
+  });
   const transitionProgress = hasFinishedIntro ? spellProgress : 0;
   const cauldronRise = easeOutCubic(clamp((transitionProgress - 0.02) / 0.38));
   const menuTransitionProgress = easeOutCubic(
     clamp((transitionProgress - 0.84) / 0.16),
   );
-  // Cup is hidden once the brewing video takes over (matches BREW_START in SpellTrail).
   const isBrewing = transitionProgress >= 0.76;
   const syncIntroPlaybackRate = useCallback(() => {
     const video = introVideoRef.current;
@@ -158,7 +160,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   return (
     <div
       ref={scrollStageRef}
-      className="relative h-[560svh] bg-black text-cream"
+      className="relative h-[710svh] bg-black text-cream"
     >
       <section
         ref={heroRef}

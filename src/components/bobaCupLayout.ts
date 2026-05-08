@@ -6,7 +6,8 @@ const CUP_WIDTH_RATIO = 0.24;
 const CUP_ASPECT_RATIO = 453 / 600;
 
 const clamp = (value: number) => Math.min(Math.max(value, 0), 1);
-const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
+const easeInOutCubic = (value: number) =>
+  value < 0.5 ? 4 * value ** 3 : 1 - Math.pow(-2 * value + 2, 3) / 2;
 const mix = (start: number, end: number, progress: number) =>
   start + (end - start) * progress;
 
@@ -42,7 +43,7 @@ export function getBobaCupLayout(
     352,
   );
   const targetCupWidth = Math.min(Math.max(containerWidth * 0.34, 260), 470);
-  const floatProgress = easeOutCubic(clamp((spellProgress - 0.08) / 0.68));
+  const floatProgress = easeInOutCubic(clamp((spellProgress - 0.06) / 0.7));
   const cupWidth = mix(startCupWidth, targetCupWidth, floatProgress);
   const targetLeft = containerWidth * 0.5;
   const targetCenterY = containerHeight * 0.5;

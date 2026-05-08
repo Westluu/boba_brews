@@ -1,5 +1,9 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../config/navigation";
+import { MENU_GROUPS } from "../../data/menu";
 import type { MenuItem } from "../../data/menu";
+import { findGroupForItem, isDrinkGroup } from "../../domain/menu";
 import { useModalBehavior } from "../../hooks/useModalBehavior";
 import MenuItemArt from "./MenuItemArt";
 import { ITEM_CHARMS } from "./menuSymbols";
@@ -11,6 +15,12 @@ type MenuItemModalProps = {
 
 function MenuItemModal({ item, onClose }: MenuItemModalProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const group = findGroupForItem(MENU_GROUPS, item);
+  const orderActionLabel = group && isDrinkGroup(group)
+    ? "Customize Brew"
+    : "Add to Order";
+  const orderItemHref = `${ROUTES.order}?item=${encodeURIComponent(item.name)}`;
+
   useModalBehavior(onClose, closeButtonRef);
 
   return (
@@ -94,6 +104,14 @@ function MenuItemModal({ item, onClose }: MenuItemModalProps) {
             {item.caffeine}
           </p>
         )}
+
+        <Link
+          to={orderItemHref}
+          className="mt-5 flex min-h-12 w-full items-center justify-center rounded-full border border-[#d28dce] bg-[#7c3ea4] px-4 font-display text-2xl leading-none text-[#fff0c8] shadow-[inset_0_0_18px_rgba(255,255,255,0.12),0_12px_24px_rgba(0,0,0,0.32)] transition hover:-translate-y-0.5 hover:bg-[#9354b8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80"
+        >
+          {orderActionLabel}
+          <span aria-hidden="true" className="ml-2">✦</span>
+        </Link>
       </div>
     </div>
   );

@@ -6,9 +6,7 @@ type SpellTrailProps = {
   visible: boolean;
 };
 
-// Brewing video begins scrubbing once the cup has finished its rise
-// (matches getBobaCupLayout's floatProgress reaching 1 at progress ≈ 0.76).
-const BREW_START = 0.76;
+const BREW_START = 0.68;
 const BREW_END = 1;
 
 const clamp = (value: number) => Math.min(Math.max(value, 0), 1);

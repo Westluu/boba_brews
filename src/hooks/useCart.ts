@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   calculateCartTotals,
   toCartItem,
@@ -14,16 +14,16 @@ export function useCart(initial: AddCartInput[] = []) {
     initial.map((entry, index) => toCartItem(index + 1, entry)),
   );
 
-  const addItem = (input: AddCartInput) => {
+  const addItem = useCallback((input: AddCartInput) => {
     setItems((current) => [
       ...current,
       toCartItem(nextIdRef.current++, input),
     ]);
-  };
+  }, []);
 
-  const removeItem = (id: number) => {
+  const removeItem = useCallback((id: number) => {
     setItems((current) => current.filter((item) => item.id !== id));
-  };
+  }, []);
 
   const totals = useMemo(() => calculateCartTotals(items), [items]);
 

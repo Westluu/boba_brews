@@ -1,4 +1,5 @@
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useSearchParams } from "react-router-dom";
 import cauldron from "../assets/cauldron.png";
 import orderBrew from "../assets/order-brew.png";
 import menuBackground from "../assets/menu/background.jpg";
@@ -11,7 +12,7 @@ import {
   setBrewOption,
   toggleBrewTopping,
 } from "../domain/order";
-import { findGroupForItem, isDrinkGroup } from "../domain/menu";
+import { findGroupForItem, findMenuItemByName, isDrinkGroup } from "../domain/menu";
 import { useCart } from "../hooks/useCart";
 import { formatCurrency, getDrinkPrice } from "../utils/pricing";
 import OrderCategoryTabs from "./order/OrderCategoryTabs";
@@ -20,12 +21,31 @@ import BrewCustomizerModal from "./order/BrewCustomizerModal";
 import CartSidebar from "./order/CartSidebar";
 
 function OrderPage() {
-  const [activeGroupTitle, setActiveGroupTitle] = useState(MENU_GROUPS[0].title);
-  const [customizing, setCustomizing] = useState<MenuItem | null>(null);
-  const [isMobileCartOpen, setIsMobileCartOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedItemName = searchParams.get("item");
+  const requestedItemMatch = requestedItemName
+    ? findMenuItemByName(MENU_GROUPS, requestedItemName)
+    : undefined;
+  const requestedItemIsDrink = requestedItemMatch
+    ? isDrinkGroup(requestedItemMatch.group)
+    : false;
+
+  const [activeGroupTitle, setActiveGroupTitle] = useState(
+    requestedItemMatch?.group.title ?? MENU_GROUPS[0].title,
+  );
+  const [customizing, setCustomizing] = useState<MenuItem | null>(
+    requestedItemMatch && requestedItemIsDrink ? requestedItemMatch.item : null,
+  );
+  const [isMobileCartOpen, setIsMobileCartOpen] = useState(
+    Boolean(requestedItemMatch && !requestedItemIsDrink),
+  );
   const [options, setOptions] = useState(getDefaultBrewOptions);
 
-  const cart = useCart();
+  const cart = useCart(
+    requestedItemMatch && !requestedItemIsDrink
+      ? [createTreatCartInput(requestedItemMatch.item)]
+      : [],
+  );
 
   const activeGroup = useMemo(
     () =>
@@ -54,6 +74,18 @@ function OrderPage() {
     }
     cart.addItem(createTreatCartInput(item));
   };
+
+  useEffect(() => {
+    if (!requestedItemName) {
+      return;
+    }
+
+    setSearchParams((currentParams) => {
+      const nextParams = new URLSearchParams(currentParams);
+      nextParams.delete("item");
+      return nextParams;
+    }, { replace: true });
+  }, [requestedItemName, setSearchParams]);
 
   const confirmCustomize = () => {
     if (!customizing) {
