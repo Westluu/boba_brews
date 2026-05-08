@@ -21,7 +21,6 @@ import startVideo from "../../assets/start-optimized.mp4?url";
 const INTRO_PLAYBACK_RATE = 3;
 const MENU_REVEAL_PROGRESS = 0.97;
 const MENU_REVEAL_DELAY_MS = 260;
-const SCROLL_PROGRESS_SMOOTHING = 0.12;
 const clamp = (value: number) => Math.min(Math.max(value, 0), 1);
 const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
 
@@ -39,15 +38,13 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   const { ref: mobileTitleRef, size: mobileTitleSize } =
     useElementSize<HTMLHeadingElement>();
   const isMobile = useMediaQuery("(max-width: 767px)");
-  const spellProgress = useScrollProgress(scrollStageRef, {
-    smoothing: SCROLL_PROGRESS_SMOOTHING,
-  });
+  const spellProgress = useScrollProgress(scrollStageRef);
   const transitionProgress = hasFinishedIntro ? spellProgress : 0;
   const cauldronRise = easeOutCubic(clamp((transitionProgress - 0.02) / 0.38));
   const menuTransitionProgress = easeOutCubic(
-    clamp((transitionProgress - 0.84) / 0.16),
+    clamp((transitionProgress - 0.9) / 0.1),
   );
-  const isBrewing = transitionProgress >= 0.76;
+  const isBrewing = transitionProgress >= 0.62;
   const syncIntroPlaybackRate = useCallback(() => {
     const video = introVideoRef.current;
 
@@ -160,7 +157,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   return (
     <div
       ref={scrollStageRef}
-      className="relative h-[710svh] bg-black text-cream"
+      className="relative h-[960svh] bg-black text-cream"
     >
       <section
         ref={heroRef}
@@ -241,11 +238,11 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
           visible={hasFinishedIntro && !isBrewing}
         />
 
-        {hasFinishedIntro && transitionProgress < 0.58 && (
+        {hasFinishedIntro && transitionProgress < 0.5 && (
           <div
             style={
               {
-                opacity: 1 - easeOutCubic(clamp(transitionProgress / 0.42)),
+                opacity: 1 - easeOutCubic(clamp(transitionProgress / 0.34)),
               } as CSSProperties
             }
           >
@@ -253,12 +250,12 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
           </div>
         )}
 
-        {hasFinishedIntro && transitionProgress < 0.34 && (
+        {hasFinishedIntro && transitionProgress < 0.28 && (
           <div
             className="scroll-brew-cue"
             style={
               {
-                opacity: 1 - easeOutCubic(clamp(transitionProgress / 0.24)),
+                opacity: 1 - easeOutCubic(clamp(transitionProgress / 0.18)),
               } as CSSProperties
             }
           >

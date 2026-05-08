@@ -43,7 +43,7 @@ export function getBobaCupLayout(
     352,
   );
   const targetCupWidth = Math.min(Math.max(containerWidth * 0.34, 260), 470);
-  const floatProgress = easeInOutCubic(clamp((spellProgress - 0.06) / 0.7));
+  const floatProgress = easeInOutCubic(clamp((spellProgress - 0.04) / 0.58));
   const cupWidth = mix(startCupWidth, targetCupWidth, floatProgress);
   const targetLeft = containerWidth * 0.5;
   const targetCenterY = containerHeight * 0.5;
