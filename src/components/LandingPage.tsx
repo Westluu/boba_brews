@@ -158,7 +158,7 @@ function LandingPage({ onMenuReveal }: LandingPageProps) {
   return (
     <div
       ref={scrollStageRef}
-      className="relative h-[420svh] bg-black text-cream"
+      className="relative h-[560svh] bg-black text-cream"
     >
       <section
         ref={heroRef}

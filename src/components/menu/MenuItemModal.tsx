@@ -26,7 +26,7 @@ function MenuItemModal({ item, onClose }: MenuItemModalProps) {
         onClick={onClose}
         className="absolute inset-0 cursor-default bg-black/70 backdrop-blur-sm"
       />
-      <div className="relative max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto animate-[fadeIn_180ms_ease-out] rounded-[1.2rem] border border-[#b9876d] bg-[#07091ef2] px-4 pb-5 pt-5 shadow-[0_28px_70px_rgba(0,0,0,0.6),inset_0_0_30px_rgba(113,74,150,0.18)] sm:px-6 sm:pb-6">
+      <div className="scrollbar-hidden relative max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto animate-[fadeIn_180ms_ease-out] rounded-[1.2rem] border border-[#b9876d] bg-[#07091ef2] px-4 pb-5 pt-5 shadow-[0_28px_70px_rgba(0,0,0,0.6),inset_0_0_30px_rgba(113,74,150,0.18)] sm:px-6 sm:pb-6">
         <span className="absolute -right-1 top-3 font-display text-xl text-[#f8dfb2]">
           +
         </span>
