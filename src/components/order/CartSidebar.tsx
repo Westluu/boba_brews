@@ -3,6 +3,7 @@ import { formatCurrency } from "../../utils/pricing";
 import { ITEM_CHARMS } from "../menu/menuSymbols";
 import cauldron from "../../assets/cauldron.png";
 import wizardCat from "../../assets/wizard-cat.png";
+import resumePdf from "../../../assets/Wesley_Software_Resume.pdf";
 
 type CartSidebarProps = {
   items: CartItem[];
@@ -123,12 +124,14 @@ function CartSidebar({
         </div>
       </div>
 
-      <button
-        type="button"
+      <a
+        href={resumePdf}
+        target="_blank"
+        rel="noreferrer"
         className="mt-4 flex min-h-16 w-full items-center justify-center gap-2 rounded-full border border-[#d28dce] bg-[#7c3ea4] px-4 font-display text-2xl leading-none text-[#fff0c8] shadow-[inset_0_0_24px_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.34)] transition hover:-translate-y-0.5 hover:bg-[#9354b8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a5f7]/80 sm:mt-5 sm:min-h-20 sm:gap-3 sm:px-5 sm:text-4xl"
       >
         Place Order
-      </button>
+      </a>
       <p className="mt-3 text-center font-display text-lg text-[#f8dfb2] sm:text-xl">
         Secure and enchanted checkout
       </p>
