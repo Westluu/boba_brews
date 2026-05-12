@@ -45,38 +45,71 @@ Run lint checks:
 npm run lint
 ```
 
-## Project Structure
+## Architecture
+
+Boba Brews is a Vite-powered single page app. React Router owns page routing,
+React components own presentation and interaction state, and pure TypeScript
+modules own menu, cart, pricing, and contact-form rules.
 
 ```text
 src/
+  App.tsx          Route table, shared layout, and lazy-loaded pages
+  main.tsx         React root and BrowserRouter bootstrap
+  assets/          Static images used by pages and menu items
   components/      Page, feature, and reusable UI components
-  config/          Route and navigation configuration
-  data/            Static menu and order option data
-  domain/          Pure business rules for contact, menu, and order behavior
-  hooks/           Shared React hooks
-  services/        External integrations such as contact email delivery
-  utils/           Cross-cutting utilities such as pricing and formatting
+  config/          Navigation constants shared by routes and UI
+  data/            Static menu catalog and order option definitions
+  domain/          Pure business rules for menu, order, and contact behavior
+  hooks/           Reusable React state/effect hooks
+  services/        Browser-facing integrations, currently FormSubmit email
+  utils/           Cross-cutting helpers such as pricing and formatting
 ```
 
-## Architecture Notes
+### Runtime Flow
 
-The app keeps business rules separate from rendering:
+1. `src/main.tsx` mounts React inside `BrowserRouter`.
+2. `src/App.tsx` renders the persistent `Navbar`, lazy-loads page components,
+   maps configured menu routes, and redirects unknown paths home.
+3. Page components compose feature components, assets, hooks, domain functions,
+   and data modules into user-facing flows.
+4. Domain and utility modules stay framework-light so pricing, validation, and
+   cart behavior can be tested or changed without touching layout code.
 
-- `src/domain/order.ts` owns cart item creation, brew option updates, and cart
-  total calculations.
-- `src/domain/menu.ts` owns menu lookup and menu group classification.
-- `src/domain/contact.ts` owns contact form validation and payload shaping.
-- `src/services/contactEmail.ts` owns the FormSubmit HTTP integration.
-- React components focus on state orchestration, layout, and user interaction.
+### Layer Responsibilities
 
-This shape keeps the codebase closer to SOLID principles:
+- `components/` handles rendering, local UI state, route params, modals, forms,
+  and responsive layout.
+- `data/` is the source of truth for static content: menu groups, menu notes,
+  order options, defaults, and tax configuration.
+- `domain/` contains deterministic rules. It creates cart inputs, clones brew
+  options safely, calculates totals, validates contact fields, and finds menu
+  items by name.
+- `hooks/` packages reusable React behavior. For example, `useCart` wraps cart
+  mutation state while delegating item creation and totals to `domain/order`.
+- `services/` isolates external transport details. `contactEmail.ts` is the only
+  place that knows the FormSubmit endpoint and request shape.
+- `utils/` contains shared helpers that do not belong to a single feature, such
+  as `formatCurrency`, `getDrinkPrice`, and `getTreatPrice`.
 
-- Single responsibility: validation, pricing, cart math, and service calls live
-  outside page components.
-- Open/closed: pricing tables and option data can be extended without rewriting
-  UI flow.
-- Dependency inversion: UI code calls small domain/service functions instead of
-  embedding transport or validation details.
+### Feature Data Flow
+
+- Menu browsing starts from `MENU_GROUPS` in `src/data/menu.ts`. `MenuPage`
+  renders category cards and item modals from that static catalog.
+- Ordering combines `MENU_GROUPS`, `src/data/orderOptions.ts`, and
+  `src/domain/order.ts`. The page owns the current selection, while domain
+  functions create cart inputs and calculate totals.
+- Contact submission keeps validation in `src/domain/contact.ts`, converts
+  valid fields to an email payload, then sends through
+  `src/services/contactEmail.ts`.
+
+### Adding New Work
+
+- Add new routes in `src/config/navigation.ts`, then map them in `src/App.tsx`.
+- Add menu items or categories in `src/data/menu.ts`; pricing behavior belongs
+  in `src/utils/pricing.ts` or `src/data/orderOptions.ts`.
+- Put reusable business rules in `src/domain/` before wiring them into a page.
+- Keep HTTP, analytics, storage, or other browser integrations in `src/services/`
+  so components do not depend on transport details.
 
 ## Key Features
 
